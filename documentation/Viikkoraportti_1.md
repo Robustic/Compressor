@@ -1,4 +1,4 @@
-# Viikkoraportti_1
+# Viikkoraportti 1
 
 Tällä viikolla noin 20 tunnin työpanos.
 
