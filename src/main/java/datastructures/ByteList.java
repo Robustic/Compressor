@@ -30,6 +30,12 @@ public class ByteList {
         }
     }
     
+    public void getPart(int start, byte[] buffer) {
+        for (int i = 0; i < buffer.length; i++) {
+            buffer[i] = this.bytes[i + start];
+        }
+    }
+    
     public void combine(byte[] secondBytes) throws Exception {
         int totalLength = this.pointer + secondBytes.length;
         if (totalLength > 1073741824) {

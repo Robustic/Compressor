@@ -14,15 +14,21 @@ Tällä viikolla noin 20 tunnin työpanos.
 
 * asetettu CircleCI build-palvelimeksi, jotta varmistetaan kääntyminen ja testien läpimeno myös muilla kuin omalla koneella
 
-* toteutettu taulukkolista tavujen talletukseen
+* toteutettu taulukkolista tavujen talletukseen tiedostosta
 
 * toteutettu yksikkötestit taulukkolistalle
 
 * rekisteröidytty kurssille labtoolissa
 
+* aloitettu kirjoittamaan muitakin tietorakenteita ja Huffmanin pakkausalgoritmia
+
 ## Ohjelman edistymä
 
-Ohjelma ei ole vielä tällä hetkellä ajettavissa. Edistymä ja kirjoitetun koodin toimivuus on varmistettu kirjoittamalla testit jo kirjoitetulle koodille.
+Ohjelma on rajoittuneesti ajettavissa.
+
+Ohjelma pystyy lukemaan tiedoston sisällön tietorakenteisiin.
+
+Huffmanin pakkausalgoritmin kirjoitus kesken.
 
 ## Opitut aiheet
 
@@ -36,6 +42,8 @@ Ohjelma ei ole vielä tällä hetkellä ajettavissa. Edistymä ja kirjoitetun ko
 
 ## Seuraavalla viikolla tehtävänä
 
-* tiedostosta luku ja kirjoitus
+* tiedostoon kirjoitus
 
-* Huffmanin pakkausalgoritmin toteutus
+* Huffmanin pakkausalgoritmin lopullinen toteutus
+
+* uusien testien kirjoittaminen
