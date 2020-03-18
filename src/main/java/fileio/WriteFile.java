@@ -33,11 +33,11 @@ public class WriteFile {
                 alreadyWritten += buffer.length;
             }
         } catch (IOException exception) {
-            exception.printStackTrace();
-            System.exit(0);
+            System.out.println(exception);
+            throw new Exception("File writing not working!");
         } catch (Exception exception) {
-            exception.printStackTrace();
-            System.exit(0);
+            System.out.println(exception);
+            throw new Exception("File writing not working!");
         }
-    }
+    }    
 }

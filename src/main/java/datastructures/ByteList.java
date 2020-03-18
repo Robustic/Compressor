@@ -110,10 +110,10 @@ public class ByteList {
         this.combine(new byte[count]);
     }
     
-    public void printByteList() {
-        for (int i = 0;  i < this.pointer; i++) {
-            System.out.print(i + ":" + ((int)this.bytes[i]) + ": ");
-            System.out.println(String.format("%8s", Integer.toBinaryString(this.bytes[i] & 0xFF)).replace(' ', '0'));
-        }
-    }
+//    public void printByteList() {
+//        for (int i = 0;  i < this.pointer; i++) {
+//            System.out.print(i + ":" + ((int)this.bytes[i]) + ": ");
+//            System.out.println(String.format("%8s", Integer.toBinaryString(this.bytes[i] & 0xFF)).replace(' ', '0'));
+//        }
+//    }
 }

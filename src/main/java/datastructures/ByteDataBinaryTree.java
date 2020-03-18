@@ -76,47 +76,47 @@ public class ByteDataBinaryTree {
         }
     }
     
-    public void printCodeTree() {
-        System.out.println("***");
-        printCode(this.root, 0, 0);
-        System.out.println("***");
-    }
+//    public void printCodeTree() {
+//        System.out.println("***");
+//        printCode(this.root, 0, 0);
+//        System.out.println("***");
+//    }
+//    
+//    private void printCode(ByteData current, int level, long code) {        
+//        for (int i = 0; i < level; i++) {
+//            System.out.print("|-");
+//        }
+//        System.out.print(current.getNormalChar() + " length: " + (int)current.getCompressedLength()+ ", Binary: ");
+//        for(int i = 0; i < level - Long.toBinaryString((long)code).length(); i++) {
+//            System.out.print('0');
+//        }
+//        System.out.println(Long.toBinaryString((long)code));
+//        level += 1;
+//        if (current.getLeftChild() != null) {
+//            printCode(current.getLeftChild(), level, code * 2);
+//        }
+//        if (current.getRightChild() != null) {
+//            printCode(current.getRightChild(), level, code * 2 + 1);
+//        }
+//    }
     
-    private void printCode(ByteData current, int level, long code) {        
-        for (int i = 0; i < level; i++) {
-            System.out.print("|-");
-        }
-        System.out.print(current.getNormalChar() + " length: " + (int)current.getCompressedLength()+ ", Binary: ");
-        for(int i = 0; i < level - Long.toBinaryString((long)code).length(); i++) {
-            System.out.print('0');
-        }
-        System.out.println(Long.toBinaryString((long)code));
-        level += 1;
-        if (current.getLeftChild() != null) {
-            printCode(current.getLeftChild(), level, code * 2);
-        }
-        if (current.getRightChild() != null) {
-            printCode(current.getRightChild(), level, code * 2 + 1);
-        }
-    }
-    
-    public void printBinaryTree() {
-        System.out.println("***");
-        printNode(this.root, 0);
-        System.out.println("***");
-    }
-    
-    private void printNode(ByteData current, int level) {
-        level += 1;
-        for (int i = 0; i < level; i++) {
-            System.out.print("  ");
-        }
-        System.out.println(current.getNormalChar() + ": " + current.getCount());
-        if (current.getLeftChild() != null) {
-            printNode(current.getLeftChild(), level);
-        }
-        if (current.getRightChild() != null) {
-            printNode(current.getRightChild(), level);
-        }
-    }
+//    public void printBinaryTree() {
+//        System.out.println("***");
+//        printNode(this.root, 0);
+//        System.out.println("***");
+//    }
+//    
+//    private void printNode(ByteData current, int level) {
+//        level += 1;
+//        for (int i = 0; i < level; i++) {
+//            System.out.print("  ");
+//        }
+//        System.out.println(current.getNormalChar() + ": " + current.getCount());
+//        if (current.getLeftChild() != null) {
+//            printNode(current.getLeftChild(), level);
+//        }
+//        if (current.getRightChild() != null) {
+//            printNode(current.getRightChild(), level);
+//        }
+//    }
 }
