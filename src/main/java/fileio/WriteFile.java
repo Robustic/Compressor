@@ -6,7 +6,7 @@ import datastructures.ByteList;
 
 public class WriteFile {
 
-    private final int SIZE = 5; // 4096;
+    private final int SIZE = 4096;
 
     public WriteFile() {
     }
@@ -25,7 +25,6 @@ public class WriteFile {
                 } else {
                     buffer = new byte[fileSize - alreadyWritten];
                 }
-                System.out.println("buffer size: " + buffer.length);
                 if (buffer.length == 0) {
                     break;
                 }
@@ -33,7 +32,6 @@ public class WriteFile {
                 outputStream.write(buffer);
                 alreadyWritten += buffer.length;
             }
-
         } catch (IOException exception) {
             exception.printStackTrace();
             System.exit(0);

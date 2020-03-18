@@ -4,21 +4,40 @@ public class ByteList {
 
     private byte[] bytes;
     private int pointer;
+    private int readingPointer;
 
     public ByteList() {
         this.bytes = new byte[2]; // new byte[1048576];
         this.pointer = 0;
+        this.readingPointer = 0;
+    }
+    
+    public void startReading() {
+        this.readingPointer = 0;
+    }
+    
+    public boolean checkNext() {
+        if (readingPointer >= pointer) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public byte readNext() {        
+        this.readingPointer++;
+        return bytes[this.readingPointer - 1];        
     }
 
     public void add(byte newbyte) throws Exception {
         while (this.pointer >= this.bytes.length) {
-            doublesize();
+            doubleSize();
         }
         this.bytes[this.pointer] = newbyte;
         this.pointer++;
     }
 
-    private void doublesize() throws Exception {
+    private void doubleSize() throws Exception {
         if (this.bytes.length < 1073741824) {
             byte[] newbytes = new byte[2 * this.bytes.length];
             for (int i = 0; i < this.pointer; i++) {
@@ -64,6 +83,13 @@ public class ByteList {
         }
         return this.bytes[i];
     }
+    
+    public void set(int i, byte byteToSet) throws Exception {
+        if (i < 0 || i >= this.pointer) {
+            throw new Exception("Index have to be inside list! Index " + i + " is outside list. List length is " + this.pointer + ".");
+        }
+        this.bytes[i] = byteToSet;
+    }
 
     public int size() {
         return this.pointer;
@@ -76,5 +102,18 @@ public class ByteList {
         }
         return bytesList;
     }
-
+    
+    public void addEmpties(int count) throws Exception {
+        if (this.pointer + count > 1073741824) {
+            throw new Exception("Too many bytes!");
+        }
+        this.combine(new byte[count]);
+    }
+    
+    public void printByteList() {
+        for (int i = 0;  i < this.pointer; i++) {
+            System.out.print(i + ":" + ((int)this.bytes[i]) + ": ");
+            System.out.println(String.format("%8s", Integer.toBinaryString(this.bytes[i] & 0xFF)).replace(' ', '0'));
+        }
+    }
 }

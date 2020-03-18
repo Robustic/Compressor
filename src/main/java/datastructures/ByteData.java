@@ -1,8 +1,10 @@
 package datastructures;
 
 public class ByteData {    
-    private byte oldCode;
-    private int number;
+    private byte normalChar;
+    private long compressedChar;
+    private char compressedLength;
+    private int count;
     
     private ByteData parent;
     private ByteData leftChild;
@@ -10,22 +12,32 @@ public class ByteData {
     
     private ByteData previous;
     private ByteData next;
-
-    public ByteData(byte oldCode) {
-        this.oldCode = oldCode;
-        this.number = 0;
+    
+    public ByteData(byte normalChar) {
+        this.normalChar = normalChar;
+        this.compressedChar = -1;
+        this.compressedLength = 0;        
+        this.count = 0;
     }
     
-    public byte getOldCode() {
-        return oldCode;
+    public byte getNormalChar() {
+        return normalChar;
     }
 
-    public int getNumber() {
-        return number;
+    public long getCompressedChar() {
+        return compressedChar;
+    }
+
+    public char getCompressedLength() {
+        return this.compressedLength;
+    }
+
+    public int getCount() {
+        return count;
     }
     
-    public void growNumber() {
-        this.number++;
+    public void growCount() {
+        this.count++;
     }
 
     public ByteData getParent() {
@@ -48,6 +60,22 @@ public class ByteData {
         return next;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+    
+    public void setNormalChar(byte normalChar) {
+        this.normalChar = normalChar;
+    }
+
+    public void setCompressedChar(long compressedChar) {
+        this.compressedChar = compressedChar;
+    }
+    
+    public void setCompressedLength(int compressedLength) {
+        this.compressedLength = (char)compressedLength;
+    }
+        
     public void setParent(ByteData parent) {
         this.parent = parent;
     }
