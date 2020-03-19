@@ -14,7 +14,7 @@ Tarkemmin aiheesta on kerrottu [määrittelydokumentissa](https://github.com/Rob
 
 ### Käytettävä ohjelmointikieli
 
-Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa. Pakkaustenhallinta tehdään Mavenilla.
+Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa. Pakkaustenhallinta tehdään Mavenilla. Testikattavuusraportit generoidaan Jacocolla. Koodin tyylinmukaisuus tarkistetaan checkstylella.
 
 ## Ohjelman käyttöohjeet
 
