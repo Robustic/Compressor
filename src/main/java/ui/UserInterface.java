@@ -12,15 +12,15 @@ public class UserInterface {
                 String readFileName = args[2];
                 ReadFile readfile = new ReadFile();
                 if (readfile.checkIfFileExists(readFileName)) {
-                    if (args[0] == "huff") {
+                    if (args[0].equals("huff")) {
                         Huffman huffman = new Huffman();                    
-                        if (args[1] == "comp") {
+                        if (args[1].equals("comp")) {
                             System.out.println("Compressing with Huffman.");
                             System.out.println("Input file name: '" + readFileName + "'");
                             huffman.compress(readFileName, readFileName + ".huffman");
                             System.out.println("Compressed file name: '" + readFileName + ".huffman'");
 
-                        } else if (args[1] == "uncomp") {
+                        } else if (args[1].equals("uncomp")) {
                             if (readFileName.length() > 8 && readFileName.endsWith(".huffman")) {
                                 System.out.println("Uncompressing with Huffman.");
                                 System.out.println("Input file name: '" + readFileName + "'");
@@ -40,7 +40,7 @@ public class UserInterface {
                 } else {
                     System.out.println("File name " + readFileName + " does not exists.");
                 }
-            } else if (args.length == 1 && args[0] == "help") {
+            } else if (args.length == 1 && args[0].equals("help")) {
                 help();
             } else {
                 infoToHelp();
