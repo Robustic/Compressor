@@ -5,29 +5,35 @@ import datastructures.ByteDataArray;
 import fileio.ReadFile;
 import fileio.WriteFile;
 
+/**
+ * Class which represent interface for the Huffman compressing algorithm.
+ */
 public class Huffman {
-    
-    public void readFile(String fileName, ByteList byteList) {
-        ReadFile readFile = new ReadFile();        
-        try {
-            readFile.readFile(fileName, byteList);
-        } catch (Exception e) {
-            System.out.println("Error when reading file.");
-            System.out.println(e);
-        }
+
+    /**
+     * Constructor.
+     */
+    public Huffman() {
     }
     
-    public void writeFile(String fileName, ByteList byteList) {
-        WriteFile writeFile = new WriteFile();        
-        try {
-            writeFile.writeFile(fileName, byteList);
-        } catch (Exception e) {
-            System.out.println("Error when writing file.");
-            System.out.println(e);
-        }
+    private void readFile(String fileName, ByteList byteList) throws Exception {
+        ReadFile readFile = new ReadFile();
+        readFile.readFile(fileName, byteList);
     }
     
-    public void code(String readFileName, String writeFileName) {
+    private void writeFile(String fileName, ByteList byteList) throws Exception {
+        WriteFile writeFile = new WriteFile();
+        writeFile.writeFile(fileName, byteList);
+    }
+    
+    /**
+     * Compress input file to the output file.
+     *
+     * @param readFileName      Input file name
+     * @param writeFileName     Output file name
+     * @throws Exception        Exception
+     */
+    public void compress(String readFileName, String writeFileName) throws Exception {
         System.out.println("Reading input file...");        
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
@@ -41,7 +47,7 @@ public class Huffman {
         byteDataArray.createBinaryTreeFromLinkedList();        
         
         ByteList writeByteList = new ByteList();
-        byteDataArray.code(readByteList, writeByteList);
+        byteDataArray.compress(readByteList, writeByteList);
         long endTime = System.nanoTime();
         System.out.println("Compressing ended.");
         long duration = (endTime - startTime) / 1000000;
@@ -54,7 +60,14 @@ public class Huffman {
         System.out.println("Output file writing ended.");
     }
     
-    public void uncode(String readFileName, String writeFileName) {
+    /**
+     * Uncompress input file to the output file.
+     *
+     * @param readFileName      Input file name
+     * @param writeFileName     Output file name
+     * @throws Exception        Exception
+     */
+    public void uncompress(String readFileName, String writeFileName) throws Exception {
         System.out.println("Reading input file...");   
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
@@ -67,7 +80,7 @@ public class Huffman {
         byteDataArray.createBinaryTreeFromBinaryCodedCodes();
         
         ByteList writeByteList = new ByteList();
-        byteDataArray.uncode(readByteList, writeByteList);
+        byteDataArray.uncompress(readByteList, writeByteList);
         long endTime = System.nanoTime();
         System.out.println("Uncompressing ended.");
         long duration = (endTime - startTime) / 1000000;

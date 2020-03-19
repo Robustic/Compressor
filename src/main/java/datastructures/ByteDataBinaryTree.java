@@ -1,21 +1,37 @@
 package datastructures;
 
+/**
+ * Class which capsulate binary tree structure.
+ */
 public class ByteDataBinaryTree {
     private ByteData root;
 
+    /**
+     * Constructor.
+     */
     public ByteDataBinaryTree() {
     }
 
+    /**
+     * getRoot
+     *
+     * @return
+     */
     public ByteData getRoot() {
         return root;
     }
     
+    /**
+     * Creates binary tree from the linked list.
+     *
+     * @param linkedList    Orderer ByteData as linked list
+     */
     public void createBinaryTreeFromLinkedList(ByteDataLinkedList linkedList) {
         linkedList.startIteration();
-        while (linkedList.checkIteration() != null) {
-            this.root = new ByteData((byte)0);
-            ByteData left = linkedList.nextIteration();
-            ByteData right = linkedList.nextIteration();
+        while (linkedList.checkObject() != null) {
+            this.root = new ByteData((byte) 0);
+            ByteData left = linkedList.nextObject();
+            ByteData right = linkedList.nextObject();
             this.root.setLeftChild(left);
             this.root.setRightChild(right);
             left.setParent(this.root);
@@ -25,8 +41,13 @@ public class ByteDataBinaryTree {
         }        
     }
     
+    /**
+     * Creates binary tree from the ByteData binary coded labels.
+     *
+     * @param byteDatas     ByteDatas in the array
+     */
     public void createBinaryTreeFromBinaryCodedCodes(ByteData[] byteDatas) {
-        this.root = new ByteData((byte)0);
+        this.root = new ByteData((byte) 0);
         for (int i = 0; i < 256; i++) {
             if (byteDatas[i].getCompressedLength() > 0) {
                 ByteData current = this.root;
@@ -35,7 +56,7 @@ public class ByteDataBinaryTree {
                 for (int k = length - 1; k >= 0; k--) {
                     if ((compressed & (1L << k)) == 0) {
                         if (current.getLeftChild() == null) {
-                            ByteData newChild = new ByteData((byte)0);
+                            ByteData newChild = new ByteData((byte) 0);
                             newChild.setParent(current);
                             current.setLeftChild(newChild);
                             current = newChild;
@@ -44,7 +65,7 @@ public class ByteDataBinaryTree {
                         }
                     } else {
                         if (current.getRightChild() == null) {
-                            ByteData newChild = new ByteData((byte)0);
+                            ByteData newChild = new ByteData((byte) 0);
                             newChild.setParent(current);
                             current.setRightChild(newChild);
                             current = newChild;
@@ -52,14 +73,23 @@ public class ByteDataBinaryTree {
                             current = current.getRightChild();
                         }
                     }
-                }                
-                current.setNormalChar(byteDatas[i].getNormalChar());
-                current.setCompressedChar(compressed);
-                current.setCompressedLength((char)length);
+                }
+                byteDatas[i].setParent(current.getParent());
+                if (current.getParent().getLeftChild() == current) {
+                    byteDatas[i].getParent().setLeftChild(byteDatas[i]);
+                } else {
+                    byteDatas[i].getParent().setRightChild(byteDatas[i]);
+                }
+//                current.setNormalChar(byteDatas[i].getNormalChar());
+//                current.setCompressedChar(compressed);
+//                current.setCompressedLength((char)length);
             }
         }
     }
     
+    /**
+     * Method to define binary coded labels for the each ByteData as leaf.
+     */
     public void saveCodesForTree() {
         saveCode(this.root, 0, 0);
     }

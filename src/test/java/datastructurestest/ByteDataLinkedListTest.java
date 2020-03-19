@@ -1,12 +1,8 @@
 package datastructurestest;
 
-import datastructures.ByteList;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import datastructures.ByteData;
 import datastructures.ByteDataLinkedList;
@@ -16,8 +12,7 @@ public class ByteDataLinkedListTest {
     ByteData byteData4;
     ByteData byteData0;
     ByteData byteData3;
-    ByteData byteData1;
-    
+    ByteData byteData1;    
     
     ByteDataLinkedList byteDataLinkedList;
     
@@ -39,17 +34,17 @@ public class ByteDataLinkedListTest {
     @Test
     public void afterInitialization() {
         byteDataLinkedList.startIteration();
-        assertEquals(null, byteDataLinkedList.checkIteration());
+        assertEquals(null, byteDataLinkedList.checkObject());
     }
     
     @Test
     public void nextByteDataIsReturnedOk() {
         this.byteDataLinkedList.add(this.byteData2);
         byteDataLinkedList.startIteration();
-        assertEquals(null, byteDataLinkedList.checkIteration());
+        assertEquals(null, byteDataLinkedList.checkObject());
         this.byteDataLinkedList.add(this.byteData4);
         byteDataLinkedList.startIteration();
-        assertEquals(this.byteDataLinkedList.getFirst(), byteDataLinkedList.checkIteration());
+        assertEquals(this.byteDataLinkedList.getFirst(), byteDataLinkedList.checkObject());
         
         ByteData[] byteDataList = new ByteData[3];
         byteDataList[0] = this.byteData3;
@@ -58,27 +53,27 @@ public class ByteDataLinkedListTest {
         this.byteDataLinkedList.addArray(byteDataList);
         byteDataLinkedList.startIteration();
         
-        ByteData current = byteDataLinkedList.nextIteration();
+        ByteData current = byteDataLinkedList.nextObject();
         assertEquals(this.byteData1, current);
         assertEquals(byteDataLinkedList.getFirst(), current.getPrevious());
         assertEquals(this.byteData2, current.getNext());
         
-        current = byteDataLinkedList.nextIteration();
+        current = byteDataLinkedList.nextObject();
         assertEquals(this.byteData2, current);
         assertEquals(this.byteData1, current.getPrevious());
         assertEquals(this.byteData3, current.getNext());
         
-        current = byteDataLinkedList.nextIteration();
+        current = byteDataLinkedList.nextObject();
         assertEquals(this.byteData3, current);
         assertEquals(this.byteData2, current.getPrevious());
         assertEquals(this.byteData4, current.getNext());
         
-        current = byteDataLinkedList.nextIteration();
+        current = byteDataLinkedList.nextObject();
         assertEquals(this.byteData4, current);
         assertEquals(this.byteData3, current.getPrevious());
         assertEquals(byteDataLinkedList.getLast(), current.getNext());
         
-        current = byteDataLinkedList.nextIteration();
+        current = byteDataLinkedList.nextObject();
         assertEquals(null, current);
     }
 }

@@ -14,9 +14,14 @@ Tarkemmin aiheesta on kerrottu [määrittelydokumentissa](https://github.com/Rob
 
 ### Käytettävä ohjelmointikieli
 
-Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa.
+Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa. Pakkaustenhallinta tehdään Mavenilla.
+
+## Ohjelman käyttöohjeet
+
+[Tutorial](https://github.com/Robustic/Compressor/blob/master/documentation/tutorial.md)
 
 ## Viikkoraportit
 
 [Viikkoraportti 1](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_1.md)
 
+[Viikkoraportti 2](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_2.md)

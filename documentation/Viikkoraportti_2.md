@@ -1,6 +1,6 @@
 # Viikkoraportti 1
 
-Tällä viikolla noin 25 tunnin työpanos.
+Tällä viikolla noin 27 tunnin työpanos.
 
 ## Tehdyt tehtävät
 
@@ -12,7 +12,9 @@ Tällä viikolla noin 25 tunnin työpanos.
 
 * toteutettu yksikkötestit tiedostoon kirjoittamiselle (kesken)
 
+* toteutettu Huffmanin pakakusalgoritmi
 
+* toteutettu testit Huffmanin pakakusalgoritmin tarvitsemille luokille
 
 ## Ohjelman edistymä
 
@@ -30,16 +32,20 @@ Ohjelma pystyy kirjoittamaan tiedostoon taulukkolistalta.
 
 ## Opitut aiheet
 
-* Harjaantuminen testien kirjoittamisessa JUnitilla.
+* Harjaantuminen testien kirjoittamisessa JUnitilla
 
-* Harjaantuminen JavaDoc_in käytössä.
+* Harjaantuminen JavaDoc:in käytössä
+
+* Perustoimintaperiaate Lempel–Ziv–Welchin algoritmille
 
 ## Epäselviä asioita
 
-* Lempel–Ziv–Welchin algoritmin yksityiskohtaisempi toimintaperiaatte
+* Lempel–Ziv–Welchin algoritmin yksityiskohtaisempi toimintaperiaate
 
 ## Seuraavalla viikolla tehtävänä
 
-* Testien täydentäminen Huffmanin algoritmin käytölle.
+* Testien täydentäminen Huffmanin algoritmin käytölle
 
-* Lempel–Ziv–Welchin algoritmiin tutustuminen.
+* Poikkeusten järkevämpi käsittely
+
+* Lempel–Ziv–Welchin algoritmiin tutustuminen

@@ -1,5 +1,8 @@
 package datastructures;
 
+/**
+ * Class capsulate data structures used by Huffman method.
+ */
 public class ByteDataArray {
     private ByteData[] byteDatas;
     private ByteDataLinkedList byteDataLinkedList;
@@ -8,10 +11,13 @@ public class ByteDataArray {
     private int headerLength;
     private long binaryCounter;
 
+    /**
+     * Constructor.
+     */
     public ByteDataArray() {
         this.byteDatas = new ByteData[256];
         for (int i = 0; i < 256; i++) {
-            this.byteDatas[i] = new ByteData((byte)(i - 128));
+            this.byteDatas[i] = new ByteData((byte) (i - 128));
         }
         this.byteDataLinkedList = new ByteDataLinkedList();
         this.byteDataBinaryTree = new ByteDataBinaryTree();
@@ -19,16 +25,31 @@ public class ByteDataArray {
         this.binaryCounter = 0;
     }
 
+    /**
+     * Returns array which keep ByteData objects.
+     *
+     * @return      ByteData objects as array
+     */
     public ByteData[] getByteDataArray() {
         return byteDatas;
     }
     
+    /**
+     * Counts how many times each character founds in the file.
+     *
+     * @param bytes     Array where characters are counted
+     */
     public void count(byte[] bytes) {
         for (int i = 0; i < bytes.length; i++) {
             this.byteDatas[bytes[i] + 128].growCount();
         }        
     }
     
+    /**
+     * Method reads header information of the ByteList to the data structures.
+     *
+     * @param readByteList      ByteList where header information is read
+     */
     public void readHeader(ByteList readByteList) {
         try {
             readByteList.startReading();
@@ -44,7 +65,7 @@ public class ByteDataArray {
                     compressedChar <<= 8;
                     compressedChar |= (readByteList.readNext() & 0xFF);
                 }
-                char compressedLength = (char)readByteList.readNext();
+                char compressedLength = (char) readByteList.readNext();
                 byte normalChar = readByteList.readNext();
                 this.byteDatas[normalChar + 128].setNormalChar(normalChar);
                 this.byteDatas[normalChar + 128].setCompressedChar(compressedChar);
@@ -56,7 +77,13 @@ public class ByteDataArray {
         
     }
     
-    public void uncode(ByteList readByteList, ByteList writeByteList) {
+    /**
+     * Method uncompress given input ByteList to the output ByteList.
+     *
+     * @param readByteList      Input ByteList
+     * @param writeByteList     Output ByteList
+     */
+    public void uncompress(ByteList readByteList, ByteList writeByteList) {
         try {
             ByteData currentByteData = byteDataBinaryTree.getRoot();
             long binaryIterator = 1L;
@@ -86,6 +113,11 @@ public class ByteDataArray {
         }
     }
     
+    /**
+     * Method writes header information of the data structures to the ByteList.
+     *
+     * @param writeByteList     ByteList where information is written
+     */
     public void writeHeader(ByteList writeByteList) {
         try {
             writeByteList.addEmpties(9);
@@ -98,26 +130,32 @@ public class ByteDataArray {
                     for (int k = 7; k >= 0; k--) {
                         long toByte = compressedChar;
                         toByte >>= 8 * k;
-                        writeByteList.add((byte)(toByte & 0xFF));                        
+                        writeByteList.add((byte) (toByte & 0xFF));                        
                     }
-                    writeByteList.add((byte)compressedLength);
-                    writeByteList.add((byte)this.byteDatas[i].getNormalChar()); 
+                    writeByteList.add((byte) compressedLength);
+                    writeByteList.add((byte) this.byteDatas[i].getNormalChar()); 
                 }
             }
-            writeByteList.set(8, (byte)(differentCharacters & 0xFF));
+            writeByteList.set(8, (byte) (differentCharacters & 0xFF));
         } catch (Exception e) {
             System.out.println(e);
         }        
     }
     
-    public void code(ByteList readByteList, ByteList writeByteList) {
+    /**
+     * Method compress given input ByteList to the output ByteList.
+     *
+     * @param readByteList      Input ByteList
+     * @param writeByteList     Output ByteList
+     */
+    public void compress(ByteList readByteList, ByteList writeByteList) {
         writeHeader(writeByteList);
         long binaryCounter = 0;
         int spaceInLong = 64;
         long buffer = 0;
         try {
             for (int i = 0; i < readByteList.size(); i++) {
-                ByteData currentByte = this.byteDatas[(int)readByteList.get(i) + 128];
+                ByteData currentByte = this.byteDatas[(int) readByteList.get(i) + 128];
                 long compressedChar = currentByte.getCompressedChar();
                 int compressedLength = currentByte.getCompressedLength();
                 binaryCounter += compressedLength;
@@ -128,7 +166,7 @@ public class ByteDataArray {
                     for (int k = 7; k >= 0; k--) {
                         long toByte = buffer;
                         toByte >>= 8 * k;
-                        writeByteList.add((byte)(toByte & 0xFF));                        
+                        writeByteList.add((byte) (toByte & 0xFF));                        
                     }
                     if (spaceInLong < compressedLength) {
                         int secondLength = compressedLength - spaceInLong;
@@ -149,12 +187,12 @@ public class ByteDataArray {
                 for (int k = 7; k >= 0; k--) {
                     long toByte = buffer;
                     toByte >>= 8 * k;
-                    writeByteList.add((byte)(toByte & 0xFF));                        
+                    writeByteList.add((byte) (toByte & 0xFF));                        
                 }
             }
             long toByte = binaryCounter;
             for (int k = 7; k >= 0; k--) {
-                writeByteList.set(k, (byte)(toByte & 0xFF)); 
+                writeByteList.set(k, (byte) (toByte & 0xFF)); 
                 toByte >>= 8;                                       
             }
         } catch (Exception e) {
@@ -162,11 +200,17 @@ public class ByteDataArray {
         }
     }
     
+    /**
+     * Creates ordered linked list.
+     */
     public void createLinkedList() {
         this.byteDataLinkedList.addArray(getByteDataArray());         
         // this.byteDataLinkedList.printLinkedList();
     }
     
+    /**
+     * Creates binary tree from linked list.
+     */
     public void createBinaryTreeFromLinkedList() {
         this.byteDataBinaryTree.createBinaryTreeFromLinkedList(this.byteDataLinkedList);
         this.byteDataBinaryTree.saveCodesForTree();
@@ -174,6 +218,9 @@ public class ByteDataArray {
         // // this.byteDataBinaryTree.printCodeTree();
     }
     
+    /**
+     * Creates binary tree from binary coded labels.
+     */
     public void createBinaryTreeFromBinaryCodedCodes() {
         this.byteDataBinaryTree.createBinaryTreeFromBinaryCodedCodes(this.byteDatas);
         // this.byteDataBinaryTree.printCodeTree();
