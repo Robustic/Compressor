@@ -47,8 +47,8 @@ public class ReadFile {
             throw new Exception("Too big file!");
         }
 
-        try (
-                InputStream inputStream = new FileInputStream(fileName);) {
+        try {
+            InputStream inputStream = new FileInputStream(fileName);
             while (true) {
                 if (alreadyRead + maxSizeOfByteArray <= fileSize) {
                     buffer = new byte[maxSizeOfByteArray];

@@ -30,9 +30,8 @@ public class WriteFile {
         int alreadyWritten = 0;
         int fileSize = byteList.size();
 
-        try (
-                OutputStream outputStream = new FileOutputStream(fileName);
-            ) {
+        try {
+            OutputStream outputStream = new FileOutputStream(fileName);
             while (true) {
                 if (alreadyWritten + maxSizeOfByteArray <= fileSize) {
                     buffer = new byte[maxSizeOfByteArray];
