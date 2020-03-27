@@ -1,10 +1,10 @@
 # Viikkoraportti 3
 
-Tällä viikolla noin 5 tunnin työpanos.
+Tällä viikolla noin 4 tunnin työpanos.
 
 ## Tehdyt tehtävät
 
-* aloitettu Lempel–Ziv–Welchin algoritmin hahmottelu ruutupaperille
+* Lempel–Ziv–Welchin algoritmin hahmottelu ruutupaperille
 
 ## Ohjelman edistymä
 
