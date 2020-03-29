@@ -1,6 +1,6 @@
 # Viikkoraportti 4
 
-Tällä viikolla noin 2 tunnin työpanos.
+Tällä viikolla noin 7 tunnin työpanos.
 
 ## Tehdyt tehtävät
 
@@ -20,11 +20,13 @@ Huffmanin pakkausalgoritmilla purku onnistuu.
 
 Ohjelma pystyy kirjoittamaan tiedostoon taulukkolistalta.
 
-Lempel–Ziv–Welchin algoritmin pakkaus toimii tekstitiedostoille.
+Lempel–Ziv–Welchin pakkausalgoritmi toimii tekstitiedostoille.
+
+Lempel–Ziv–Welchin purkualgoritmi toimii binääritiedostoille.
 
 ## Opitut aiheet
 
-* Perustoimintaperiaate Lempel–Ziv–Welchin algoritmille
+* Lempel–Ziv–Welchin algoritmin käytännön toteutus
 
 ## Epäselviä asioita
 
@@ -32,4 +34,4 @@ Lempel–Ziv–Welchin algoritmin pakkaus toimii tekstitiedostoille.
 
 * Poikkeusten järkevämpi käsittely
 
-* Lempel–Ziv–Welchin algoritmin toteutus pakatun tiedoston purkamiseksi
+* Testien tekeminen tilanteelle, jossa Lempel–Ziv–Welchin algoritmin sanaston koko uhkaa ylittää 65536 sanaa
