@@ -20,6 +20,16 @@ public class ByteList {
     }
     
     /**
+     * Constructor.
+     */
+    public ByteList(byte firstByte) {
+        this.bytes = new byte[2];
+        this.bytes[0] = firstByte;
+        this.pointer = 1;
+        this.readingPointer = 0;
+    }
+    
+    /**
      * Method to set reading pointer to the start of the list.
      */
     public void startReading() {

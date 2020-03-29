@@ -27,3 +27,5 @@ Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa. Pakkaustenha
 [Viikkoraportti 2](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_2.md)
 
 [Viikkoraportti 3](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_3.md)
+
+[Viikkoraportti 4](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_4.md)
