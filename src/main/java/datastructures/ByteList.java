@@ -30,6 +30,18 @@ public class ByteList {
     }
     
     /**
+     * Constructor.
+     */
+    public ByteList(ByteList other) {
+        this.bytes = new byte[other.size()];
+        for (int i = 0; i < other.size(); i++) {
+            this.bytes[i] = other.bytes[i];
+        }
+        this.pointer = other.pointer;
+        this.readingPointer = other.readingPointer;
+    }
+    
+    /**
      * Method to set reading pointer to the start of the list.
      */
     public void startReading() {

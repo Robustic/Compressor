@@ -50,31 +50,26 @@ public class ByteDataArray {
      *
      * @param readByteList      ByteList where header information is read
      */
-    public void readHeader(ByteList readByteList) {
-        try {
-            readByteList.startReading();
-            for (int i = 0; i < 8; i++) {
-                this.binaryCounter <<= 8;
-                this.binaryCounter |= (readByteList.readNext() & 0xFF);
-            }
-            int differentChars = (readByteList.readNext() & 0xFF);
-            this.headerLength = 8 + 1 + differentChars * (8 + 1 + 1);
-            for (int i = 0; i < differentChars; i++) {
-                long compressedChar = 0;
-                for (int k = 0; k < 8; k++) {
-                    compressedChar <<= 8;
-                    compressedChar |= (readByteList.readNext() & 0xFF);
-                }
-                char compressedLength = (char) readByteList.readNext();
-                byte normalChar = readByteList.readNext();
-                this.byteDatas[normalChar + 128].setNormalChar(normalChar);
-                this.byteDatas[normalChar + 128].setCompressedChar(compressedChar);
-                this.byteDatas[normalChar + 128].setCompressedLength(compressedLength);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
+    public void readHeader(ByteList readByteList) throws Exception {
+        readByteList.startReading();
+        for (int i = 0; i < 8; i++) {
+            this.binaryCounter <<= 8;
+            this.binaryCounter |= (readByteList.readNext() & 0xFF);
         }
-        
+        int differentChars = (readByteList.readNext() & 0xFF);
+        this.headerLength = 8 + 1 + differentChars * (8 + 1 + 1);
+        for (int i = 0; i < differentChars; i++) {
+            long compressedChar = 0;
+            for (int k = 0; k < 8; k++) {
+                compressedChar <<= 8;
+                compressedChar |= (readByteList.readNext() & 0xFF);
+            }
+            char compressedLength = (char) readByteList.readNext();
+            byte normalChar = readByteList.readNext();
+            this.byteDatas[normalChar + 128].setNormalChar(normalChar);
+            this.byteDatas[normalChar + 128].setCompressedChar(compressedChar);
+            this.byteDatas[normalChar + 128].setCompressedLength(compressedLength);
+        }        
     }
     
     /**
@@ -83,33 +78,29 @@ public class ByteDataArray {
      * @param readByteList      Input ByteList
      * @param writeByteList     Output ByteList
      */
-    public void uncompress(ByteList readByteList, ByteList writeByteList) {
-        try {
-            ByteData currentByteData = byteDataBinaryTree.getRoot();
-            long binaryIterator = 1L;
-            for (int i = this.headerLength; i < readByteList.size(); i++) {
+    public void uncompress(ByteList readByteList, ByteList writeByteList) throws Exception {
+        ByteData currentByteData = byteDataBinaryTree.getRoot();
+        long binaryIterator = 1L;
+        for (int i = this.headerLength; i < readByteList.size(); i++) {
+            if (binaryIterator > this.binaryCounter) {
+                break;
+            }
+            byte currentByte = readByteList.get(i);
+            for (int k = 7; k >= 0; k--) {                
                 if (binaryIterator > this.binaryCounter) {
                     break;
                 }
-                byte currentByte = readByteList.get(i);
-                for (int k = 7; k >= 0; k--) {                
-                    if (binaryIterator > this.binaryCounter) {
-                        break;
-                    }
-                    if ((currentByte & (1 << k)) == 0) {
-                        currentByteData = currentByteData.getLeftChild();
-                    } else {
-                        currentByteData = currentByteData.getRightChild();
-                    }
-                    if (currentByteData.getLeftChild() == null) {
-                        writeByteList.add(currentByteData.getNormalChar());
-                        currentByteData = byteDataBinaryTree.getRoot();
-                    }
-                    binaryIterator++;
+                if ((currentByte & (1 << k)) == 0) {
+                    currentByteData = currentByteData.getLeftChild();
+                } else {
+                    currentByteData = currentByteData.getRightChild();
                 }
+                if (currentByteData.getLeftChild() == null) {
+                    writeByteList.add(currentByteData.getNormalChar());
+                    currentByteData = byteDataBinaryTree.getRoot();
+                }
+                binaryIterator++;
             }
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
     
