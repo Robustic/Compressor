@@ -5,11 +5,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import algorithms.Huffman;
 import datastructures.ByteData;
 import datastructures.ByteDataArray;
 import datastructures.ByteDataBinaryTree;
 import datastructures.ByteDataLinkedList;
 import datastructures.ByteList;
+import fileio.ReadFile;
+import fileio.WriteFile;
 
 public class ByteDataArrayTest {
     ByteDataArray byteDataArray;
@@ -79,7 +82,7 @@ public class ByteDataArrayTest {
         assertEquals((byte)Integer.parseInt("00000000", 2), bytes[5]);
         assertEquals((byte)Integer.parseInt("00000000", 2), bytes[6]);
         assertEquals((byte)Integer.parseInt("01111010", 2), bytes[7]);
-        assertEquals((byte)Integer.parseInt("00000111", 2), bytes[8]);
+        assertEquals((byte)Integer.parseInt("00000110", 2), bytes[8]);
         assertEquals((byte)Integer.parseInt("00000000", 2), bytes[9]);
         assertEquals((byte)Integer.parseInt("00000000", 2), bytes[10]);
         assertEquals((byte)Integer.parseInt("00000000", 2), bytes[11]);
@@ -182,7 +185,7 @@ public class ByteDataArrayTest {
             this.readByteListUncode.add((byte)Integer.parseInt("00000000", 2));
             this.readByteListUncode.add((byte)Integer.parseInt("00000000", 2));
             this.readByteListUncode.add((byte)Integer.parseInt("01111010", 2));
-            this.readByteListUncode.add((byte)Integer.parseInt("00000111", 2));
+            this.readByteListUncode.add((byte)Integer.parseInt("00000110", 2));
             this.readByteListUncode.add((byte)Integer.parseInt("00000000", 2));
             this.readByteListUncode.add((byte)Integer.parseInt("00000000", 2));
             this.readByteListUncode.add((byte)Integer.parseInt("00000000", 2));

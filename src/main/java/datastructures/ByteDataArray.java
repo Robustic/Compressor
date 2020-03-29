@@ -56,7 +56,7 @@ public class ByteDataArray {
             this.binaryCounter <<= 8;
             this.binaryCounter |= (readByteList.readNext() & 0xFF);
         }
-        int differentChars = (readByteList.readNext() & 0xFF);
+        int differentChars = 1 + (int) (readByteList.readNext() & 0xFF);
         this.headerLength = 8 + 1 + differentChars * (8 + 1 + 1);
         for (int i = 0; i < differentChars; i++) {
             long compressedChar = 0;
@@ -127,6 +127,7 @@ public class ByteDataArray {
                     writeByteList.add((byte) this.byteDatas[i].getNormalChar()); 
                 }
             }
+            differentCharacters--;
             writeByteList.set(8, (byte) (differentCharacters & 0xFF));
         } catch (Exception e) {
             System.out.println(e);

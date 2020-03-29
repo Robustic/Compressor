@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class HuffmanTest {
     Huffman huffman;
     ReadFile readFile = new ReadFile();
+    WriteFile writeFile = new WriteFile();
     
     @Before
     public void initialize() {
@@ -69,25 +70,59 @@ public class HuffmanTest {
         }
     }
     
-//    @Test
-//    public void codingAndUncodingWorksForBinaryFile() {
-//        try {
-//            System.out.println("*** File: Compressor.jar ***");
-//            this.huffman.compress("Compressor.jar", "Compressor.jar.test.huffman");
-//            this.huffman.uncompress("Compressor.jar.test.huffman", "Compressor.jar.test");
-////            assertTrue(filesAreSame("Compressor.jar", "Compressor.jar.test"));
-////            if (readFile.checkIfFileExists("Compressor.jar.test")) {
-////                File fileToDelete = new File("Compressor.jar.test");
-////                fileToDelete.delete();
-////            }
-////            if (readFile.checkIfFileExists("Compressor.jar.test.huffman")) {
-////                File fileToDelete = new File("Compressor.jar.test.huffman");
-////                fileToDelete.delete();
-////            }
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            e.printStackTrace(System.out);
-////            assertTrue(false);
-//        }
-//    }
+    @Test
+    public void codingAndUncodingWorksForBinaryFile() {
+        try {
+            System.out.println("*** File: Generated binary file ***");
+            ByteList generatedByteList = new ByteList();
+            for (int i = 0; i < 256; i++) {
+                generatedByteList.add((byte) i);
+            }
+            for (int i = 255; i >= 0; i--) {
+                generatedByteList.add((byte) i);
+            }
+            writeFile.writeFile("Compressor.testgenerated", generatedByteList);
+            this.huffman.compress("Compressor.testgenerated", "Compressor.testgenerated.huffman");
+            this.huffman.uncompress("Compressor.testgenerated.huffman", "Compressor.testgenerated.test");
+            assertTrue(filesAreSame("Compressor.testgenerated", "Compressor.testgenerated.test"));
+            if (readFile.checkIfFileExists("Compressor.testgenerated")) {
+                File fileToDelete = new File("Compressor.testgenerated");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("Compressor.testgenerated.huffman")) {
+                File fileToDelete = new File("Compressor.testgenerated.huffman");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("Compressor.testgenerated.test")) {
+                File fileToDelete = new File("Compressor.testgenerated.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace(System.out);
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void codingAndUncodingWorksForJarBinaryFile() {
+        try {
+            System.out.println("*** File: Compressor.jar ***");
+            this.huffman.compress("Compressor.jar", "Compressor.jar.test.huffman");
+            this.huffman.uncompress("Compressor.jar.test.huffman", "Compressor.jar.test");
+            assertTrue(filesAreSame("Compressor.jar", "Compressor.jar.test"));
+            if (readFile.checkIfFileExists("Compressor.jar.test")) {
+                File fileToDelete = new File("Compressor.jar.test");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("Compressor.jar.test.huffman")) {
+                File fileToDelete = new File("Compressor.jar.test.huffman");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace(System.out);
+            assertTrue(false);
+        }
+    }
 }
