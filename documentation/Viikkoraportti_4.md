@@ -1,10 +1,14 @@
 # Viikkoraportti 4
 
-Tällä viikolla noin 7 tunnin työpanos.
+Tällä viikolla noin 14 tunnin työpanos.
 
 ## Tehdyt tehtävät
 
-* Lempel–Ziv–Welchin algoritmin alustava toteutus
+* Lempel–Ziv–Welchin algoritmin toteutus
+
+* toteutusdokumentaatio aloitettu
+
+* testausdokumentaatio aloitettu
 
 ## Ohjelman edistymä
 

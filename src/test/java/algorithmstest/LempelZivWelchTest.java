@@ -140,12 +140,19 @@ public class LempelZivWelchTest {
     }
     
     @Test
-    public void codingAndUncodingWorksForBinaryFile() {
+    public void codingAndUncodingWorksForJarBinaryFile() {
         try {
             System.out.println("*** File: Compressor.jar ***");
+            long start = System.nanoTime();
+            
             this.lempelZivWelch.compress("Compressor.jar", "Compressor.jar.test.lempelZivWelch");
             this.lempelZivWelch = new LempelZivWelch();
             this.lempelZivWelch.uncompress("Compressor.jar.test.lempelZivWelch", "Compressor.jar.test");
+            
+            double elapsedTime = (double) (System.nanoTime() - start) / 1000000;
+            
+            System.out.println("Time to encode and decode Compressor.jar: " + elapsedTime + " ms");
+            
             assertTrue(filesAreSame("Compressor.jar", "Compressor.jar.test"));
             if (readFile.checkIfFileExists("Compressor.jar.test")) {
                 File fileToDelete = new File("Compressor.jar.test");
