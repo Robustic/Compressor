@@ -1,6 +1,7 @@
 package project;
 
 import ui.UserInterface;
+import userio.ProductionPrinter;
 
 public class Compressor {    
 
@@ -9,8 +10,8 @@ public class Compressor {
 //        args[0] = "huff";
 //        args[1] = "uncomp";
 //        args[2] = "pg10.txt.huffman";
-        
-        UserInterface ui = new UserInterface();
+        ProductionPrinter printer = new ProductionPrinter();
+        UserInterface ui = new UserInterface(printer);
         ui.run(args);
     }
 }

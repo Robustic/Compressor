@@ -62,48 +62,9 @@ public class ReadFile {
                 alreadyRead += buffer.length;
             }
         } catch (IOException exception) {
-            System.out.println(exception);
-            throw new Exception("File reading not working or file not exists!");
+            throw new Exception("Reading from file " + fileName + " not working!");
         } catch (Exception exception) {
-            System.out.println(exception);
-            throw new Exception("File reading not working!");
+            throw new Exception("Reading from file " + fileName + " not working!");
         }
     }
-    
-//    public void printFileAsCodes(String fileName) throws Exception {
-//        byte[] buffer;
-//        int alreadyRead = 0;
-//        long fileSize = new File(fileName).length();
-//
-//        if (fileSize > 536870912) {
-//            throw new Exception("Too big file!");
-//        }
-//
-//        try (
-//                InputStream inputStream = new FileInputStream(fileName);
-//                ) {
-//            System.out.println(" *** File content:  ***");
-//            while (true) {
-//                if (alreadyRead + maxSizeOfByteArray <= fileSize) {
-//                    buffer = new byte[maxSizeOfByteArray];
-//                } else {
-//                    buffer = new byte[(int) fileSize - alreadyRead];
-//                }
-//                if (inputStream.read(buffer) == -1 || buffer.length == 0) {
-//                    break;
-//                }
-//                for (int i = 0; i < buffer.length; i++) {
-//                    System.out.println((int)buffer[i]);
-//                }
-//                alreadyRead += buffer.length;
-//            }
-//            System.out.println(" ***  ***");
-//        } catch (IOException exception) {
-//            exception.printStackTrace();
-//            System.exit(0);
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//            System.exit(0);
-//        }
-//    }
 }

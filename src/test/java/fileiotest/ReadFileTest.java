@@ -2,7 +2,6 @@ package fileiotest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,12 +63,12 @@ public class ReadFileTest {
     @Test
     public void fileReadingWhenFileNotExists() {
         try {
-            readFile.readFile("notexists.txt", this.byteList);
+            readFile.readFile("notExists.txt", this.byteList);
             assertTrue(false);
         } catch (Exception e) {
             System.out.println(e);
             assertTrue(true);
-            assertEquals("File reading not working or file not exists!", e.getMessage());
+            assertEquals("Reading from file notExists.txt not working!", e.getMessage());
         }        
     }
 }

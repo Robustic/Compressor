@@ -4,14 +4,17 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import java.io.File;
+import static org.junit.Assert.assertTrue;
 
 import algorithms.LempelZivWelch;
 import datastructures.ByteList;
 import fileio.ReadFile;
-import java.io.File;
-import static org.junit.Assert.assertTrue;
+import userio.MessagePrinter;
+import userio.ProductionPrinter;
 
 public class LempelZivWelchTest {
+    private MessagePrinter printer;
     LempelZivWelch lempelZivWelch;
     ReadFile readFile = new ReadFile();
     
@@ -52,7 +55,8 @@ public class LempelZivWelchTest {
     
     @Before
     public void initialize() {
-        this.lempelZivWelch = new LempelZivWelch();
+        this.printer = new ProductionPrinter();
+        this.lempelZivWelch = new LempelZivWelch(this.printer);
     }
     
     @Test
@@ -123,7 +127,7 @@ public class LempelZivWelchTest {
         try {
             System.out.println("*** File: pg10.txt ***");
             this.lempelZivWelch.compress("pg10.txt", "pg10.txt.test.lempelZivWelch");
-            this.lempelZivWelch = new LempelZivWelch();
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
             this.lempelZivWelch.uncompress("pg10.txt.test.lempelZivWelch", "pg10.txt.test");
             assertTrue(filesAreSame("pg10.txt", "pg10.txt.test"));
             if (readFile.checkIfFileExists("pg10.txt.test")) {
@@ -146,7 +150,7 @@ public class LempelZivWelchTest {
             long start = System.nanoTime();
             
             this.lempelZivWelch.compress("Compressor.jar", "Compressor.jar.test.lempelZivWelch");
-            this.lempelZivWelch = new LempelZivWelch();
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
             this.lempelZivWelch.uncompress("Compressor.jar.test.lempelZivWelch", "Compressor.jar.test");
             
             double elapsedTime = (double) (System.nanoTime() - start) / 1000000;

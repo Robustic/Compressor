@@ -101,28 +101,4 @@ public class ByteDataLinkedList {
             }
         }
     }
-    
-//    private void printFirstToLast() {
-//        ByteData current = this.first.getNext();
-//        while (current != this.last) {
-//            System.out.println("Code: " + current.getNormalChar() + ", Number: " + current.getCount());
-//            current = current.getNext();
-//        }
-//    }
-//    
-//    private void printLastToFirst() {
-//        ByteData current = this.last.getPrevious();
-//        while (current != this.first) {
-//            System.out.println("Code: " + current.getNormalChar() + ", Number: " + current.getCount());
-//            current = current.getPrevious();
-//        }
-//    }
-//    
-//    public void printLinkedList() {
-//        System.out.println("**");
-//        printFirstToLast();
-//        System.out.println("**");
-//        printLastToFirst();
-//        System.out.println("**"); 
-//    }
 }

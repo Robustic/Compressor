@@ -5,13 +5,16 @@ import datastructures.ByteList;
 import datastructures.Letter;
 import fileio.ReadFile;
 import fileio.WriteFile;
+import userio.MessagePrinter;
 
 public class LempelZivWelch {
+    private MessagePrinter printer;
     private Letter root;
     private int nextCode;
     private ByteList[] translation;
     
-    public LempelZivWelch() {
+    public LempelZivWelch(MessagePrinter messagePrinter) {
+        this.printer = messagePrinter;
         this.root = new Letter();
         this.root.initialize(-1);
         for (int i = 0; i < 256; i++) {
@@ -46,9 +49,8 @@ public class LempelZivWelch {
         for (int i = 0; i < bytes.size(); i++) {
             if (current.isChildAlreadyInitialized((int) (bytes.get(i) & 0xFF))) {
                 current = current.getChildInIndex((int) (bytes.get(i) & 0xFF));
-                //System.out.print((char) + current.getCode() + " ");
             } else {
-                System.out.println("ERROR");
+                throw new Exception("Trying to read code from the child which is not yet initialized!");
             }
         }
         return current.getCode();
@@ -60,21 +62,10 @@ public class LempelZivWelch {
             if (current.isChildAlreadyInitialized((int) (bytes.get(i) & 0xFF))) {
                 current = current.getChildInIndex((int) (bytes.get(i) & 0xFF));
             } else {
-                System.out.println("Virhetoiminto, objektia ei ole alustettu.");
+                throw new Exception("Trying to read code from the child which is not yet initialized!");
             }
         }
         current.initializeChild((int) (newByte & 0xFF), this.nextCode);
-//        System.out.print("Byte: ");
-//        for (int i = 0; i < bytes.size(); i++) {
-//            System.out.print((int) (bytes.get(i) & 0xFF) + " ");
-//        }
-//        System.out.print((int) (newByte & 0xFF) + " ");
-//        System.out.print(", ");
-//        for (int i = 0; i < bytes.size(); i++) {
-//            System.out.print((char)(bytes.get(i)) + " ");
-//        }
-//        System.out.print((char)(newByte) + " ");
-//        System.out.println(", code: " + this.nextCode);
         this.nextCode++;
     }
     
@@ -94,93 +85,59 @@ public class LempelZivWelch {
     }
 
     public ByteList encode(ByteList byteList) throws Exception {
-//        System.out.println("*** ENCODE ***");
         ByteList codedByteList = new ByteList();
-        try { 
-            if (byteList.size() == 0) {
-                return codedByteList;
-            }
-                        
-            byteList.startReading();            
-            ByteList partialString = new ByteList(byteList.readNext());
-            while (byteList.checkNext()) {
-                Byte symbol = byteList.readNext();
-                if (isWordInitialized(partialString, symbol)) {
-                    //System.out.println("Loytyi jo taulukosta, luetaan seuraava symboli.");
-                    partialString.add(symbol);
-                } else {
-//                    System.out.println("Print: " + outputTheCode(partialString));
-                    addIntToByteList(outputTheCode(partialString), codedByteList);
-                    if (nextCode < 65536) {
-                        initializeWord(partialString, symbol);
-                    }
-                    partialString = new ByteList(symbol);
-                }
-            }
-//            System.out.println("Print: " + outputTheCode(partialString));
-            addIntToByteList(outputTheCode(partialString), codedByteList);
-            
-        } catch (Exception e) {
-            
+        if (byteList.size() == 0) {
+            return codedByteList;
         }
+
+        byteList.startReading();            
+        ByteList partialString = new ByteList(byteList.readNext());
+        while (byteList.checkNext()) {
+            Byte symbol = byteList.readNext();
+            if (isWordInitialized(partialString, symbol)) {
+                partialString.add(symbol);
+            } else {
+                addIntToByteList(outputTheCode(partialString), codedByteList);
+                if (nextCode < 65536) {
+                    initializeWord(partialString, symbol);
+                }
+                partialString = new ByteList(symbol);
+            }
+        }
+        addIntToByteList(outputTheCode(partialString), codedByteList);
         return codedByteList;
     }
     
-//    public ByteList codeToByteList(int code) {
-//        ByteList newByteList = new ByteList();
-//        
-//        return newByteList;
-//    }
-//    
-//    private void tree(ByteList byteList) {
-//        
-//    }
-    
     public ByteList decode(ByteList byteList) throws Exception {
-//        System.out.println("*** DECODE ***");
         ByteList output = new ByteList();
-        try { 
-            if (byteList.size() == 0) {
-                return output;
-            } else if (byteList.size() % 2 > 0) {
-                throw new Exception("Decoding byte list size is not even!");
+        if (byteList.size() == 0) {
+            return output;
+        } else if (byteList.size() % 2 > 0) {
+            throw new Exception("Lempel-Ziv-Welch decoding byte list size is not even!");
+        }
+
+        byteList.startReading();            
+        int ocode = nextIntFromByteList(byteList);
+        output.combine(this.translation[ocode].getBytesAsArray());
+
+        ByteList string = new ByteList();
+        byte character = 0;
+        while (byteList.checkNext()) {
+            int ncode = nextIntFromByteList(byteList);                
+            if (this.translation[ncode] != null) {
+                string = new ByteList(this.translation[ncode]);
+            } else {
+                string = new ByteList(this.translation[ocode]);
+                string.add(character);
             }
-                        
-            byteList.startReading();            
-            int ocode = nextIntFromByteList(byteList);
-            output.combine(this.translation[ocode].getBytesAsArray());
-            
-            ByteList string = new ByteList();
-            byte character = 0;
-            while (byteList.checkNext()) {
-                int ncode = nextIntFromByteList(byteList);                
-                if (this.translation[ncode] != null) {
-                    string = new ByteList(this.translation[ncode]);
-                } else {
-                    string = new ByteList(this.translation[ocode]);
-                    string.add(character);
-                }
-                output.combine(string.getBytesAsArray());
-                character = string.get(0);
-                if (nextCode < 65536) {
-                    this.translation[nextCode] = new ByteList(this.translation[ocode]);
-                    this.translation[nextCode].add(character);
-                    nextCode++;     
-                }
-                ocode = ncode;
+            output.combine(string.getBytesAsArray());
+            character = string.get(0);
+            if (nextCode < 65536) {
+                this.translation[nextCode] = new ByteList(this.translation[ocode]);
+                this.translation[nextCode].add(character);
+                nextCode++;     
             }
-//            for (int i = 256; i < nextCode; i++) {
-//                //System.out.print("Code " + i + ": ");
-////                for (int k = 0; k < translation[i].size(); k++) {
-////                    System.out.print((int) translation[i].get(k) + ", ");
-////                }
-////                System.out.println("");
-//            }
-//            System.out.println("Print: " + outputTheCode(partialString));
-//            addIntToByteList(outputTheCode(partialString), output);
-            
-        } catch (Exception e) {
-            
+            ocode = ncode;
         }
         return output;
     }
@@ -203,25 +160,25 @@ public class LempelZivWelch {
      * @throws Exception        Exception
      */
     public void compress(String readFileName, String writeFileName) throws Exception {
-        System.out.println("Reading input file...");        
+        this.printer.println("Reading input file...");        
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
-        System.out.println("Input file reading ended.");
+        this.printer.println("Input file reading ended.");
         
-        System.out.println("Compressing...");
+        this.printer.println("Compressing...");
         long startTime = System.nanoTime();        
         ByteList writeByteList = encode(readByteList);
         long endTime = System.nanoTime();
         
-        System.out.println("Compressing ended.");
+        this.printer.println("Compressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        System.out.println("Compression took " + duration + " ms.");
+        this.printer.println("Compression took " + duration + " ms.");
         double compressionRate = (double) writeByteList.size() / readByteList.size() * 100;
-        System.out.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
+        this.printer.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
         
-        System.out.println("Writing output file...");
+        this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);
-        System.out.println("Output file writing ended.");
+        this.printer.println("Output file writing ended.");
     }
     
     /**
@@ -232,22 +189,22 @@ public class LempelZivWelch {
      * @throws Exception        Exception
      */
     public void uncompress(String readFileName, String writeFileName) throws Exception {
-        System.out.println("Reading input file...");   
+        this.printer.println("Reading input file...");   
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
-        System.out.println("Input file reading ended.");
+        this.printer.println("Input file reading ended.");
         
-        System.out.println("Uncompressing...");
+        this.printer.println("Uncompressing...");
         long startTime = System.nanoTime();
         ByteList writeByteList = decode(readByteList);
         long endTime = System.nanoTime();
         
-        System.out.println("Uncompressing ended.");
+        this.printer.println("Uncompressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        System.out.println("Uncompressing took " + duration + " ms.");
+        this.printer.println("Uncompressing took " + duration + " ms.");
         
-        System.out.println("Writing output file...");
+        this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);
-        System.out.println("Output file writing ended.");
+        this.printer.println("Output file writing ended.");
     }
 }

@@ -6,21 +6,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import algorithms.Huffman;
-import algorithms.LempelZivWelch;
 import datastructures.ByteList;
 import fileio.ReadFile;
 import fileio.WriteFile;
 import java.io.File;
 import static org.junit.Assert.assertTrue;
+import userio.MessagePrinter;
+import userio.ProductionPrinter;
 
 public class HuffmanTest {
+    private MessagePrinter printer;
     Huffman huffman;
     ReadFile readFile = new ReadFile();
     WriteFile writeFile = new WriteFile();
     
     @Before
     public void initialize() {
-        this.huffman = new Huffman();
+        this.printer = new ProductionPrinter();
+        this.huffman = new Huffman(this.printer);
     }
     
     private boolean filesAreSame(String file1, String file2) {

@@ -65,7 +65,7 @@ public class ByteData {
     }
     
     /**
-     * Method to increase count value with one.     *
+     * Method to increase count value with one.
      */
     public void growCount() {
         this.count++;
@@ -126,7 +126,7 @@ public class ByteData {
     }
     
     /**
-     * normalChar
+     * setNormalChar
      *
      * @param normalChar
      */
@@ -135,7 +135,7 @@ public class ByteData {
     }
 
     /**
-     * compressedChar
+     * setCompressedChar
      *
      * @param compressedChar
      */
@@ -144,7 +144,7 @@ public class ByteData {
     }
     
     /**
-     * compressedLength
+     * setCompressedLength
      *
      * @param compressedLength
      */
@@ -153,7 +153,7 @@ public class ByteData {
     }
         
     /**
-     * parent
+     * setParent
      *
      * @param parent
      */
@@ -162,7 +162,7 @@ public class ByteData {
     }
 
     /**
-     * leftChild
+     * setLeftChild
      *
      * @param leftChild
      */
@@ -171,7 +171,7 @@ public class ByteData {
     }
 
     /**
-     * rightChild
+     * setRightChild
      *
      * @param rightChild
      */
@@ -180,7 +180,7 @@ public class ByteData {
     }
 
     /**
-     * previous
+     * setPrevious
      *
      * @param previous
      */
@@ -189,7 +189,7 @@ public class ByteData {
     }
 
     /**
-     * next
+     * setNext
      *
      * @param next
      */

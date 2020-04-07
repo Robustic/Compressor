@@ -1,44 +1,83 @@
 package ui;
 
 import algorithms.Huffman;
+import algorithms.LempelZivWelch;
 import fileio.ReadFile;
+import userio.MessagePrinter;
 
 public class UserInterface {
+    private MessagePrinter printer;
+
+    public UserInterface(MessagePrinter messagePrinter) {
+        this.printer = messagePrinter;
+    }    
+    
+    public void huffmanSelected(String algorithm, String method, String readFileName) throws Exception {
+        Huffman huffman = new Huffman(this.printer);                    
+        if (method.equals("comp")) {
+            this.printer.println("Compressing with Huffman.");
+            this.printer.println("Input file name: '" + readFileName + "'");
+            huffman.compress(readFileName, readFileName + ".huffman");
+            this.printer.println("Compressed file name: '" + readFileName + ".huffman'");
+
+        } else if (method.equals("uncomp")) {
+            if (readFileName.length() > 8 && readFileName.endsWith(".huffman")) {
+                this.printer.println("Uncompressing with Huffman.");
+                this.printer.println("Input file name: '" + readFileName + "'");
+                String writeFileName = readFileName.substring(0, readFileName.length() - 8);
+                huffman.uncompress(readFileName, writeFileName);
+                this.printer.println("Uncompressed file name: '" + writeFileName + "'");
+            } else {
+                infoToHelp();
+            }
+        } else {
+            infoToHelp();
+        }
+    }
+    
+    public void lempelZivWelchSelected(String algorithm, String method, String readFileName) throws Exception {
+        LempelZivWelch lempelZivWelch = new LempelZivWelch(this.printer);                    
+        if (method.equals("comp")) {
+            this.printer.println("Compressing with Lempel-Ziv-Welch.");
+            this.printer.println("Input file name: '" + readFileName + "'");
+            lempelZivWelch.compress(readFileName, readFileName + ".lzw");
+            this.printer.println("Compressed file name: '" + readFileName + ".lzw'");
+
+        } else if (method.equals("uncomp")) {
+            if (readFileName.length() > 4 && readFileName.endsWith(".lzw")) {
+                this.printer.println("Uncompressing with Lempel-Ziv-Welch.");
+                this.printer.println("Input file name: '" + readFileName + "'");
+                String writeFileName = readFileName.substring(0, readFileName.length() - 4);
+                lempelZivWelch.uncompress(readFileName, writeFileName);
+                this.printer.println("Uncompressed file name: '" + writeFileName + "'");
+            } else {
+                infoToHelp();
+            }
+        } else {
+            infoToHelp();
+        }
+    }
+    
     public void run(String[] args) {
         try {
-            System.out.println("* Compressor 0.01 *");
-            System.out.println("* MIT License     *");
+            this.printer.println("* Compressor 0.01 *");
+            this.printer.println("* MIT License     *");
             if (args.length == 3) {
+                String algorithm = args[0];
+                String method = args[1];
                 String readFileName = args[2];
                 ReadFile readfile = new ReadFile();
                 if (readfile.checkIfFileExists(readFileName)) {
-                    if (args[0].equals("huff")) {
-                        Huffman huffman = new Huffman();                    
-                        if (args[1].equals("comp")) {
-                            System.out.println("Compressing with Huffman.");
-                            System.out.println("Input file name: '" + readFileName + "'");
-                            huffman.compress(readFileName, readFileName + ".huffman");
-                            System.out.println("Compressed file name: '" + readFileName + ".huffman'");
-
-                        } else if (args[1].equals("uncomp")) {
-                            if (readFileName.length() > 8 && readFileName.endsWith(".huffman")) {
-                                System.out.println("Uncompressing with Huffman.");
-                                System.out.println("Input file name: '" + readFileName + "'");
-                                String writeFileName = readFileName.substring(0, readFileName.length() - 8);
-                                huffman.uncompress(readFileName, writeFileName);
-                                System.out.println("Uncompressed file name: '" + writeFileName + "'");
-                            } else {
-                                infoToHelp();
-                            }
-                        } else {
-                            infoToHelp();
-                        }
+                    if (algorithm.equals("huff")) {
+                        huffmanSelected(algorithm, method, readFileName);
+                    } else if (algorithm.equals("lzw")) {
+                        lempelZivWelchSelected(algorithm, method, readFileName);
                     } else {
-                        System.out.println(args[0] + " is not accepted packing algorithm.");
+                        this.printer.println(algorithm + " is not accepted packing algorithm.");
                         infoToHelp();
                     }
                 } else {
-                    System.out.println("File name " + readFileName + " does not exists.");
+                    this.printer.println("File name " + readFileName + " does not exists.");
                 }
             } else if (args.length == 1 && args[0].equals("help")) {
                 help();
@@ -46,23 +85,28 @@ public class UserInterface {
                 infoToHelp();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.printer.println(e);
         }
     }
     
     public void infoToHelp() {
-        System.out.println("Check help with command 'compressor help'");
+        this.printer.println("Check help with command 'compressor help'");
     }
     
     public void help() {
-        System.out.println("");
-        System.out.println("Huffman");
-        System.out.println("=======");
-        System.out.println("To compress file with Huffman algorithm, run command 'compressor huff comp <filename>'.");
-        System.out.println("To compress file with Huffman algorithm, run command 'compressor huff uncomp <filename.huffman>'.");
-        System.out.println("");
-        System.out.println("Help");
-        System.out.println("====");
-        System.out.println("Check help with command 'compressor help'.");        
+        this.printer.println("");
+        this.printer.println("Huffman");
+        this.printer.println("=======");
+        this.printer.println("To compress file with Huffman algorithm, run command 'compressor huff comp <filename>'.");
+        this.printer.println("To compress file with Huffman algorithm, run command 'compressor huff uncomp <filename.huffman>'.");
+        this.printer.println("");
+        this.printer.println("Lempel-Ziv-Welch");
+        this.printer.println("=======");
+        this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw comp <filename>'.");
+        this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw uncomp <filename.huffman>'.");
+        this.printer.println("");
+        this.printer.println("Help");
+        this.printer.println("====");
+        this.printer.println("Check help with command 'compressor help'.");        
     }
 }

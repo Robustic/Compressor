@@ -109,29 +109,25 @@ public class ByteDataArray {
      *
      * @param writeByteList     ByteList where information is written
      */
-    public void writeHeader(ByteList writeByteList) {
-        try {
-            writeByteList.addEmpties(9);
-            int differentCharacters = 0;
-            for (int i = 0; i < byteDatas.length; i++) {
-                if (this.byteDatas[i].getCount() > 0) {
-                    differentCharacters++;
-                    long compressedChar = this.byteDatas[i].getCompressedChar();
-                    char compressedLength = this.byteDatas[i].getCompressedLength();
-                    for (int k = 7; k >= 0; k--) {
-                        long toByte = compressedChar;
-                        toByte >>= 8 * k;
-                        writeByteList.add((byte) (toByte & 0xFF));                        
-                    }
-                    writeByteList.add((byte) compressedLength);
-                    writeByteList.add((byte) this.byteDatas[i].getNormalChar()); 
+    public void writeHeader(ByteList writeByteList) throws Exception {
+        writeByteList.addEmpties(9);
+        int differentCharacters = 0;
+        for (int i = 0; i < byteDatas.length; i++) {
+            if (this.byteDatas[i].getCount() > 0) {
+                differentCharacters++;
+                long compressedChar = this.byteDatas[i].getCompressedChar();
+                char compressedLength = this.byteDatas[i].getCompressedLength();
+                for (int k = 7; k >= 0; k--) {
+                    long toByte = compressedChar;
+                    toByte >>= 8 * k;
+                    writeByteList.add((byte) (toByte & 0xFF));                        
                 }
+                writeByteList.add((byte) compressedLength);
+                writeByteList.add((byte) this.byteDatas[i].getNormalChar()); 
             }
-            differentCharacters--;
-            writeByteList.set(8, (byte) (differentCharacters & 0xFF));
-        } catch (Exception e) {
-            System.out.println(e);
-        }        
+        }
+        differentCharacters--;
+        writeByteList.set(8, (byte) (differentCharacters & 0xFF));            
     }
     
     /**
@@ -140,55 +136,51 @@ public class ByteDataArray {
      * @param readByteList      Input ByteList
      * @param writeByteList     Output ByteList
      */
-    public void compress(ByteList readByteList, ByteList writeByteList) {
+    public void compress(ByteList readByteList, ByteList writeByteList) throws Exception {
         writeHeader(writeByteList);
         long binaryCounter = 0;
         int spaceInLong = 64;
         long buffer = 0;
-        try {
-            for (int i = 0; i < readByteList.size(); i++) {
-                ByteData currentByte = this.byteDatas[(int) readByteList.get(i) + 128];
-                long compressedChar = currentByte.getCompressedChar();
-                int compressedLength = currentByte.getCompressedLength();
-                binaryCounter += compressedLength;
-                long firsPart = compressedChar;                
-                if (spaceInLong <= compressedLength) {
-                    firsPart >>= compressedLength - spaceInLong;
-                    buffer += firsPart;
-                    for (int k = 7; k >= 0; k--) {
-                        long toByte = buffer;
-                        toByte >>= 8 * k;
-                        writeByteList.add((byte) (toByte & 0xFF));                        
-                    }
-                    if (spaceInLong < compressedLength) {
-                        int secondLength = compressedLength - spaceInLong;
-                        spaceInLong = 64 - secondLength;
-                        compressedChar <<= spaceInLong;
-                        buffer = compressedChar;
-                    } else {
-                        spaceInLong = 64;
-                        buffer = 0;                        
-                    }                    
-                } else {
-                    firsPart <<= spaceInLong - compressedLength;
-                    buffer += firsPart;
-                    spaceInLong -= compressedLength;
-                }
-            }
-            if (spaceInLong < 64) {
+        for (int i = 0; i < readByteList.size(); i++) {
+            ByteData currentByte = this.byteDatas[(int) readByteList.get(i) + 128];
+            long compressedChar = currentByte.getCompressedChar();
+            int compressedLength = currentByte.getCompressedLength();
+            binaryCounter += compressedLength;
+            long firsPart = compressedChar;                
+            if (spaceInLong <= compressedLength) {
+                firsPart >>= compressedLength - spaceInLong;
+                buffer += firsPart;
                 for (int k = 7; k >= 0; k--) {
                     long toByte = buffer;
                     toByte >>= 8 * k;
                     writeByteList.add((byte) (toByte & 0xFF));                        
                 }
+                if (spaceInLong < compressedLength) {
+                    int secondLength = compressedLength - spaceInLong;
+                    spaceInLong = 64 - secondLength;
+                    compressedChar <<= spaceInLong;
+                    buffer = compressedChar;
+                } else {
+                    spaceInLong = 64;
+                    buffer = 0;                        
+                }                    
+            } else {
+                firsPart <<= spaceInLong - compressedLength;
+                buffer += firsPart;
+                spaceInLong -= compressedLength;
             }
-            long toByte = binaryCounter;
+        }
+        if (spaceInLong < 64) {
             for (int k = 7; k >= 0; k--) {
-                writeByteList.set(k, (byte) (toByte & 0xFF)); 
-                toByte >>= 8;                                       
+                long toByte = buffer;
+                toByte >>= 8 * k;
+                writeByteList.add((byte) (toByte & 0xFF));                        
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+        long toByte = binaryCounter;
+        for (int k = 7; k >= 0; k--) {
+            writeByteList.set(k, (byte) (toByte & 0xFF)); 
+            toByte >>= 8;                                       
         }
     }
     
@@ -196,8 +188,7 @@ public class ByteDataArray {
      * Creates ordered linked list.
      */
     public void createLinkedList() {
-        this.byteDataLinkedList.addArray(getByteDataArray());         
-        // this.byteDataLinkedList.printLinkedList();
+        this.byteDataLinkedList.addArray(getByteDataArray());
     }
     
     /**
@@ -206,8 +197,6 @@ public class ByteDataArray {
     public void createBinaryTreeFromLinkedList() {
         this.byteDataBinaryTree.createBinaryTreeFromLinkedList(this.byteDataLinkedList);
         this.byteDataBinaryTree.saveCodesForTree();
-        // this.byteDataBinaryTree.printBinaryTree();
-        // // this.byteDataBinaryTree.printCodeTree();
     }
     
     /**
@@ -215,6 +204,5 @@ public class ByteDataArray {
      */
     public void createBinaryTreeFromBinaryCodedCodes() {
         this.byteDataBinaryTree.createBinaryTreeFromBinaryCodedCodes(this.byteDatas);
-        // this.byteDataBinaryTree.printCodeTree();
     }
 }

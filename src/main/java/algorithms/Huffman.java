@@ -4,16 +4,19 @@ import datastructures.ByteList;
 import datastructures.ByteDataArray;
 import fileio.ReadFile;
 import fileio.WriteFile;
+import userio.MessagePrinter;
 
 /**
  * Class which represent interface for the Huffman compressing algorithm.
  */
 public class Huffman {
+    private MessagePrinter printer;
 
     /**
      * Constructor.
      */
-    public Huffman() {
+    public Huffman(MessagePrinter messagePrinter) {
+        this.printer = messagePrinter;
     }
     
     private void readFile(String fileName, ByteList byteList) throws Exception {
@@ -34,12 +37,12 @@ public class Huffman {
      * @throws Exception        Exception
      */
     public void compress(String readFileName, String writeFileName) throws Exception {
-        System.out.println("Reading input file...");        
+        this.printer.println("Reading input file...");        
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
-        System.out.println("Input file reading ended.");
+        this.printer.println("Input file reading ended.");
         
-        System.out.println("Compressing...");
+        this.printer.println("Compressing...");
         long startTime = System.nanoTime();
         ByteDataArray byteDataArray = new ByteDataArray();
         byteDataArray.count(readByteList.getBytesAsArray());
@@ -49,15 +52,15 @@ public class Huffman {
         ByteList writeByteList = new ByteList();
         byteDataArray.compress(readByteList, writeByteList);
         long endTime = System.nanoTime();
-        System.out.println("Compressing ended.");
+        this.printer.println("Compressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        System.out.println("Compression took " + duration + " ms.");
+        this.printer.println("Compression took " + duration + " ms.");
         double compressionRate = (double) writeByteList.size() / readByteList.size() * 100;
-        System.out.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
+        this.printer.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
         
-        System.out.println("Writing output file...");
+        this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);
-        System.out.println("Output file writing ended.");
+        this.printer.println("Output file writing ended.");
     }
     
     /**
@@ -68,12 +71,12 @@ public class Huffman {
      * @throws Exception        Exception
      */
     public void uncompress(String readFileName, String writeFileName) throws Exception {
-        System.out.println("Reading input file...");   
+        this.printer.println("Reading input file...");   
         ByteList readByteList = new ByteList();        
         readFile(readFileName, readByteList);
-        System.out.println("Input file reading ended.");
+        this.printer.println("Input file reading ended.");
         
-        System.out.println("Uncompressing...");
+        this.printer.println("Uncompressing...");
         long startTime = System.nanoTime();
         ByteDataArray byteDataArray = new ByteDataArray();
         byteDataArray.readHeader(readByteList);
@@ -82,12 +85,12 @@ public class Huffman {
         ByteList writeByteList = new ByteList();
         byteDataArray.uncompress(readByteList, writeByteList);
         long endTime = System.nanoTime();
-        System.out.println("Uncompressing ended.");
+        this.printer.println("Uncompressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        System.out.println("Uncompressing took " + duration + " ms.");
+        this.printer.println("Uncompressing took " + duration + " ms.");
         
-        System.out.println("Writing output file...");
+        this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);
-        System.out.println("Output file writing ended.");
+        this.printer.println("Output file writing ended.");
     }
 }
