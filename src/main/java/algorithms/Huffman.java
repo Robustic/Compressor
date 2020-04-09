@@ -44,17 +44,31 @@ public class Huffman {
         
         this.printer.println("Compressing...");
         long startTime = System.nanoTime();
-        ByteDataArray byteDataArray = new ByteDataArray();
-        byteDataArray.count(readByteList.getBytesAsArray());
-        byteDataArray.createLinkedList();        
-        byteDataArray.createBinaryTreeFromLinkedList();        
-        
         ByteList writeByteList = new ByteList();
-        byteDataArray.compress(readByteList, writeByteList);
+        if (readByteList.size() < 2) {
+            writeByteList = readByteList;
+        } else {
+            ByteDataArray byteDataArray = new ByteDataArray();
+            byteDataArray.count(readByteList.getBytesAsArray());
+            if (byteDataArray.countDifferentCharacters() == 1) {
+                long bytes = readByteList.size();
+                for (int k = 7; k >= 0; k--) {
+                    long toByte = bytes;
+                    toByte >>= 8 * k;
+                    writeByteList.add((byte) (toByte & 0xFF));                        
+                }
+                writeByteList.add((byte) 0);
+                writeByteList.add(readByteList.get(0));
+            } else {
+                byteDataArray.createLinkedList();        
+                byteDataArray.createBinaryTreeFromLinkedList();        
+                byteDataArray.compress(readByteList, writeByteList);
+            }
+        }
         long endTime = System.nanoTime();
         this.printer.println("Compressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        this.printer.println("Compression took " + duration + " ms.");
+        this.printer.println("Compression took " + duration + " ms elapsed time.");
         double compressionRate = (double) writeByteList.size() / readByteList.size() * 100;
         this.printer.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
         
@@ -78,16 +92,31 @@ public class Huffman {
         
         this.printer.println("Uncompressing...");
         long startTime = System.nanoTime();
-        ByteDataArray byteDataArray = new ByteDataArray();
-        byteDataArray.readHeader(readByteList);
-        byteDataArray.createBinaryTreeFromBinaryCodedCodes();
-        
         ByteList writeByteList = new ByteList();
-        byteDataArray.uncompress(readByteList, writeByteList);
+        if (readByteList.size() < 2) {
+            writeByteList = readByteList;
+        } else {
+            if (readByteList.get(8) == 0) {
+                long bytes = 0; 
+                for (int i = 0; i < 8; i++) {
+                    bytes <<= 8;
+                    bytes |= (readByteList.get(i) & 0xFF);
+                }
+                byte character = readByteList.get(9);
+                for (long i = 0; i < bytes; i++) {
+                    writeByteList.add(character);
+                }
+            } else {
+                ByteDataArray byteDataArray = new ByteDataArray();
+                byteDataArray.readHeader(readByteList);
+                byteDataArray.createBinaryTreeFromBinaryCodedCodes();
+                byteDataArray.uncompress(readByteList, writeByteList);
+            }
+        }
         long endTime = System.nanoTime();
         this.printer.println("Uncompressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        this.printer.println("Uncompressing took " + duration + " ms.");
+        this.printer.println("Uncompressing took " + duration + " ms elapsed time.");
         
         this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);

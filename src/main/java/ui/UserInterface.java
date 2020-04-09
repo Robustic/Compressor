@@ -12,7 +12,7 @@ public class UserInterface {
         this.printer = messagePrinter;
     }    
     
-    public void huffmanSelected(String algorithm, String method, String readFileName) throws Exception {
+    private void huffmanSelected(String method, String readFileName) throws Exception {
         Huffman huffman = new Huffman(this.printer);                    
         if (method.equals("comp")) {
             this.printer.println("Compressing with Huffman.");
@@ -35,7 +35,7 @@ public class UserInterface {
         }
     }
     
-    public void lempelZivWelchSelected(String algorithm, String method, String readFileName) throws Exception {
+    private void lempelZivWelchSelected(String method, String readFileName) throws Exception {
         LempelZivWelch lempelZivWelch = new LempelZivWelch(this.printer);                    
         if (method.equals("comp")) {
             this.printer.println("Compressing with Lempel-Ziv-Welch.");
@@ -62,16 +62,25 @@ public class UserInterface {
         try {
             this.printer.println("* Compressor 0.01 *");
             this.printer.println("* MIT License     *");
+            if (args.length > 0 && args[0] == null) {
+                args[0] = "";
+            }
+            if (args.length > 1 && args[1] == null) {
+                args[1] = "";
+            }
+            if (args.length > 2 && args[2] == null) {
+                args[2] = "";
+            }
             if (args.length == 3) {
                 String algorithm = args[0];
                 String method = args[1];
                 String readFileName = args[2];
-                ReadFile readfile = new ReadFile();
-                if (readfile.checkIfFileExists(readFileName)) {
+                ReadFile readfile = new ReadFile();                
+                if (!readFileName.equals("") && readfile.checkIfFileExists(readFileName)) {
                     if (algorithm.equals("huff")) {
-                        huffmanSelected(algorithm, method, readFileName);
+                        huffmanSelected(method, readFileName);
                     } else if (algorithm.equals("lzw")) {
-                        lempelZivWelchSelected(algorithm, method, readFileName);
+                        lempelZivWelchSelected(method, readFileName);
                     } else {
                         this.printer.println(algorithm + " is not accepted packing algorithm.");
                         infoToHelp();
@@ -89,11 +98,11 @@ public class UserInterface {
         }
     }
     
-    public void infoToHelp() {
+    private void infoToHelp() {
         this.printer.println("Check help with command 'compressor help'");
     }
     
-    public void help() {
+    private void help() {
         this.printer.println("");
         this.printer.println("Huffman");
         this.printer.println("=======");
@@ -103,7 +112,7 @@ public class UserInterface {
         this.printer.println("Lempel-Ziv-Welch");
         this.printer.println("=======");
         this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw comp <filename>'.");
-        this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw uncomp <filename.huffman>'.");
+        this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw uncomp <filename.lzw>'.");
         this.printer.println("");
         this.printer.println("Help");
         this.printer.println("====");

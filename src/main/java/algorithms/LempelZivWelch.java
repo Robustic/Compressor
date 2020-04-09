@@ -121,7 +121,7 @@ public class LempelZivWelch {
         output.combine(this.translation[ocode].getBytesAsArray());
 
         ByteList string = new ByteList();
-        byte character = 0;
+        byte character = (byte) ocode;
         while (byteList.checkNext()) {
             int ncode = nextIntFromByteList(byteList);                
             if (this.translation[ncode] != null) {
@@ -172,7 +172,7 @@ public class LempelZivWelch {
         
         this.printer.println("Compressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        this.printer.println("Compression took " + duration + " ms.");
+        this.printer.println("Compression took " + duration + " ms elapsed time.");
         double compressionRate = (double) writeByteList.size() / readByteList.size() * 100;
         this.printer.println("Compressing rate " + String.format("%.2f", compressionRate) + " %.");
         
@@ -201,7 +201,7 @@ public class LempelZivWelch {
         
         this.printer.println("Uncompressing ended.");
         long duration = (endTime - startTime) / 1000000;
-        this.printer.println("Uncompressing took " + duration + " ms.");
+        this.printer.println("Uncompressing took " + duration + " ms elapsed time.");
         
         this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);

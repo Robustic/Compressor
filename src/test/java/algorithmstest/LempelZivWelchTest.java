@@ -10,13 +10,15 @@ import static org.junit.Assert.assertTrue;
 import algorithms.LempelZivWelch;
 import datastructures.ByteList;
 import fileio.ReadFile;
+import fileio.WriteFile;
 import userio.MessagePrinter;
-import userio.ProductionPrinter;
+import userio.TestPrinter;
 
 public class LempelZivWelchTest {
     private MessagePrinter printer;
     LempelZivWelch lempelZivWelch;
     ReadFile readFile = new ReadFile();
+    WriteFile writeFile = new WriteFile();
     
     public static byte[] stringToByteArray(String s) {
         int len = s.length();
@@ -55,8 +57,152 @@ public class LempelZivWelchTest {
     
     @Before
     public void initialize() {
-        this.printer = new ProductionPrinter();
+        this.printer = new TestPrinter();
         this.lempelZivWelch = new LempelZivWelch(this.printer);
+    }
+    
+    @Test
+    public void emptyFilePackingWorks() {
+        try {
+            ByteList byteList = new ByteList();
+            writeFile.writeFile("emptyFileInTests", byteList);
+            this.lempelZivWelch.compress("emptyFileInTests", "emptyFileInTests.lzw");
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
+            this.lempelZivWelch.uncompress("emptyFileInTests.lzw", "emptyFileInTests.test");
+            assertTrue(filesAreSame("emptyFileInTests", "emptyFileInTests.test"));
+            if (readFile.checkIfFileExists("emptyFileInTests")) {
+                File fileToDelete = new File("emptyFileInTests");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("emptyFileInTests.lzw")) {
+                File fileToDelete = new File("emptyFileInTests.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("emptyFileInTests.test")) {
+                File fileToDelete = new File("emptyFileInTests.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void fileWithOneByte() {
+        try {
+            ByteList byteList = new ByteList();
+            byteList.add((byte) 97);
+            writeFile.writeFile("emptyFileInTests", byteList);
+            this.lempelZivWelch.compress("emptyFileInTests", "emptyFileInTests.lzw");
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
+            this.lempelZivWelch.uncompress("emptyFileInTests.lzw", "emptyFileInTests.test");
+            assertTrue(filesAreSame("emptyFileInTests", "emptyFileInTests.test"));
+            if (readFile.checkIfFileExists("emptyFileInTests")) {
+                File fileToDelete = new File("emptyFileInTests");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("emptyFileInTests.lzw")) {
+                File fileToDelete = new File("emptyFileInTests.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("emptyFileInTests.test")) {
+                File fileToDelete = new File("emptyFileInTests.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void fileWithTwoSameBytes() {
+        try {
+            ByteList byteList = new ByteList();
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            writeFile.writeFile("smallFileInTests", byteList);
+            this.lempelZivWelch.compress("smallFileInTests", "smallFileInTests.lzw");
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
+            this.lempelZivWelch.uncompress("smallFileInTests.lzw", "smallFileInTests.test");
+            assertTrue(filesAreSame("smallFileInTests", "smallFileInTests.test"));
+            if (readFile.checkIfFileExists("smallFileInTests")) {
+                File fileToDelete = new File("smallFileInTests");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTests.lzw")) {
+                File fileToDelete = new File("smallFileInTests.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTests.test")) {
+                File fileToDelete = new File("smallFileInTests.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void fileWithNineSameBytes() {
+        try {
+            ByteList byteList = new ByteList();
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            byteList.add((byte) 97);
+            writeFile.writeFile("smallFileInTestsNine", byteList);
+            this.lempelZivWelch.compress("smallFileInTestsNine", "smallFileInTestsNine.lzw");
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
+            this.lempelZivWelch.uncompress("smallFileInTestsNine.lzw", "smallFileInTestsNine.test");
+            assertTrue(filesAreSame("smallFileInTestsNine", "smallFileInTestsNine.test"));
+            if (readFile.checkIfFileExists("smallFileInTestsNine")) {
+                File fileToDelete = new File("smallFileInTestsNine");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTestsNine.lzw")) {
+                File fileToDelete = new File("smallFileInTestsNine.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTestsNine.test")) {
+                File fileToDelete = new File("smallFileInTestsNine.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void fileWithTwoDifferentBytes() {
+        try {
+            ByteList byteList = new ByteList();
+            byteList.add((byte) 97);
+            byteList.add((byte) 98);
+            writeFile.writeFile("smallFileInTests", byteList);
+            this.lempelZivWelch.compress("smallFileInTests", "smallFileInTests.lzw");
+            this.lempelZivWelch = new LempelZivWelch(this.printer);
+            this.lempelZivWelch.uncompress("smallFileInTests.lzw", "smallFileInTests.test");
+            assertTrue(filesAreSame("smallFileInTests", "smallFileInTests.test"));
+            if (readFile.checkIfFileExists("smallFileInTests")) {
+                File fileToDelete = new File("smallFileInTests");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTests.lzw")) {
+                File fileToDelete = new File("smallFileInTests.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("smallFileInTests.test")) {
+                File fileToDelete = new File("smallFileInTests.test");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
     }
     
     @Test
@@ -101,13 +247,7 @@ public class LempelZivWelchTest {
             codedList.add((byte) (0 & 0xFF));
             codedList.add((byte) (66 & 0xFF));
             ByteList decoded = lempelZivWelch.decode(codedList);
-//            System.out.println("decoded.size(): " + decoded.size());
             assertEquals(9, decoded.size());
-//            System.out.println("");
-//            for (int i = 0; i < decoded.size(); i++) {
-//                System.out.print((char) decoded.get(i));
-//            }
-//            System.out.println("\n");
             assertEquals(65, (int) decoded.get(0));
             assertEquals(66, (int) decoded.get(1));
             assertEquals(65, (int) decoded.get(2));

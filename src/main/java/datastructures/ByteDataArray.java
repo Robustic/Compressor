@@ -46,6 +46,21 @@ public class ByteDataArray {
     }
     
     /**
+     * Counts how many different characters founds in the file.
+     *
+     * @return bytes    Count of different characters
+     */
+    public int countDifferentCharacters() {
+        int sum = 0;
+        for (int i = 0; i < this.byteDatas.length; i++) {
+            if (this.byteDatas[i].getCount() > 0) {
+                sum++;
+            }
+        }  
+        return sum;
+    }
+    
+    /**
      * Method reads header information of the ByteList to the data structures.
      *
      * @param readByteList      ByteList where header information is read

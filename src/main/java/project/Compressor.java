@@ -1,16 +1,16 @@
 package project;
 
 import ui.UserInterface;
+import userio.MessagePrinter;
 import userio.ProductionPrinter;
+
+import algorithms.LempelZivWelch;
+import datastructures.ByteList;
 
 public class Compressor {    
 
-    public static void main(String[] args) {
-//        String[] args = new String[3];
-//        args[0] = "huff";
-//        args[1] = "uncomp";
-//        args[2] = "pg10.txt.huffman";
-        ProductionPrinter printer = new ProductionPrinter();
+    public static void main(String[] args) {        
+        MessagePrinter printer = new ProductionPrinter();
         UserInterface ui = new UserInterface(printer);
         ui.run(args);
     }
