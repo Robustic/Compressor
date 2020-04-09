@@ -1,6 +1,6 @@
 # Viikkoraportti 5
 
-Tällä viikolla noin 10 tunnin työpanos.
+Tällä viikolla noin 20 tunnin työpanos.
 
 ## Tehdyt tehtävät
 
@@ -8,23 +8,31 @@ Tällä viikolla noin 10 tunnin työpanos.
 
 * README.md:hen linkit testaus- ja toteutusdokumentteihin
 
-## Ohjelman edistymä
+* Testien täydentäminen
 
-Ohjelma on ajettavissa Huffmanin algoritmille.
+* Sovelluksen viimeistely kaikin puolin
+
+* Suorituskykyyn liittyvät testit
+
+## Ohjelman edistymä
 
 Tekstikäytöliittymä toimii.
 
 Ohjelma pystyy lukemaan tiedoston sisällön tietorakenteisiin.
 
-Huffmanin pakkausalgoritmilla pakkaus onnistuu.
-
-Huffmanin pakkausalgoritmilla purku onnistuu.
-
 Ohjelma pystyy kirjoittamaan tiedostoon taulukkolistalta.
+
+Huffmanin pakkausalgoritmi toimii tekstitiedostoille.
+
+Huffmanin pakkausalgoritmi toimii binääritiedostoille.
 
 Lempel–Ziv–Welchin pakkausalgoritmi toimii tekstitiedostoille.
 
 Lempel–Ziv–Welchin purkualgoritmi toimii binääritiedostoille.
+
+Kattavat testit.
+
+JavaDoc:in kirjoitus puolessa välissä.
 
 ## Opitut aiheet
 
@@ -34,6 +42,6 @@ Lempel–Ziv–Welchin purkualgoritmi toimii binääritiedostoille.
 
 ## Seuraavalla viikolla tehtävänä
 
-* Poikkeusten järkevämpi käsittely
+Dokumentaation täydentäminen
 
-* Testien tekeminen tilanteelle, jossa Lempel–Ziv–Welchin algoritmin sanaston koko uhkaa ylittää 65536 sanaa
+JavaDoc:in viimeistely

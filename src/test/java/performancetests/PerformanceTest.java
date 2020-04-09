@@ -228,4 +228,98 @@ public class PerformanceTest {
             assertTrue(false);
         }
     }
+    
+    public void lzw_x(int size) {
+        try {
+            System.out.println("******************************");
+            System.out.println("Lempel-Ziv-Welch: " + size + " bytes");
+            System.out.println("==============================");
+            String[] args = new String[3];
+            args[0] = "lzw";
+            args[1] = "comp";
+            args[2] = "testFileToPerformanceTest_" + size + ".txt";
+            this.ui.run(args);
+            this.printer.printMessageInIndex(2);
+            this.printer.printMessageInIndex(3);
+            this.printer.printMessageInIndex(8);
+            this.printer.printMessageInIndex(9);
+            System.out.println("==============================");
+            
+            assertTrue(readFile.checkIfFileExists("testFileToPerformanceTest_" + size + ".txt.lzw"));
+            
+            File file = new File("testFileToPerformanceTest_" + size + ".txt.lzw");
+            assertTrue(file.renameTo(new File("testFileToPerformanceTest_" + size + ".newlzw.txt.lzw")));
+            
+            args[1] = "uncomp";
+            args[2] = "testFileToPerformanceTest_" + size + ".newlzw.txt.lzw";
+            
+            this.printer = new TestPrinter();
+            this.ui = new UserInterface(this.printer);
+            
+            this.ui.run(args);
+            this.printer.printMessageInIndex(2);
+            this.printer.printMessageInIndex(8);
+            System.out.println("******************************");
+            
+            assertTrue(readFile.checkIfFileExists("testFileToPerformanceTest_" + size + ".newlzw.txt"));
+            
+            assertTrue(filesAreSame("testFileToPerformanceTest_" + size + ".txt", "testFileToPerformanceTest_" + size + ".newlzw.txt"));
+            
+            if (readFile.checkIfFileExists("testFileToPerformanceTest_" + size + ".newlzw.txt.lzw")) {
+                File fileToDelete = new File("testFileToPerformanceTest_" + size + ".newlzw.txt.lzw");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("testFileToPerformanceTest_" + size + ".newlzw.txt")) {
+                File fileToDelete = new File("testFileToPerformanceTest_" + size + ".newlzw.txt");
+                fileToDelete.delete();
+            }
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_10000() {
+        try {
+            lzw_x(10000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_100000() {
+        try {
+            lzw_x(100000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_1000000() {
+        try {
+            lzw_x(1000000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_10000000() {
+        try {
+            lzw_x(10000000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_100000000() {
+        try {
+            lzw_x(100000000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
 }
