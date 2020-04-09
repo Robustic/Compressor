@@ -58,6 +58,25 @@ public class UserInterface {
         }
     }
     
+    private void threeArcuments(String[] args) throws Exception {
+        String algorithm = args[0];
+        String method = args[1];
+        String readFileName = args[2];
+        ReadFile readfile = new ReadFile();                
+        if (!readFileName.equals("") && readfile.checkIfFileExists(readFileName)) {
+            if (algorithm.equals("huff")) {
+                huffmanSelected(method, readFileName);
+            } else if (algorithm.equals("lzw")) {
+                lempelZivWelchSelected(method, readFileName);
+            } else {
+                this.printer.println(algorithm + " is not accepted packing algorithm.");
+                infoToHelp();
+            }
+        } else {
+            this.printer.println("File name " + readFileName + " does not exists.");
+        }
+    }
+    
     public void run(String[] args) {
         try {
             this.printer.println("* Compressor 0.01 *");
@@ -72,22 +91,7 @@ public class UserInterface {
                 args[2] = "";
             }
             if (args.length == 3) {
-                String algorithm = args[0];
-                String method = args[1];
-                String readFileName = args[2];
-                ReadFile readfile = new ReadFile();                
-                if (!readFileName.equals("") && readfile.checkIfFileExists(readFileName)) {
-                    if (algorithm.equals("huff")) {
-                        huffmanSelected(method, readFileName);
-                    } else if (algorithm.equals("lzw")) {
-                        lempelZivWelchSelected(method, readFileName);
-                    } else {
-                        this.printer.println(algorithm + " is not accepted packing algorithm.");
-                        infoToHelp();
-                    }
-                } else {
-                    this.printer.println("File name " + readFileName + " does not exists.");
-                }
+                threeArcuments(args);
             } else if (args.length == 1 && args[0].equals("help")) {
                 help();
             } else {

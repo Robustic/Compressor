@@ -10,6 +10,9 @@ public class ByteDataArray {
     
     private int headerLength;
     private long binaryCounter;
+    
+    private int spaceInLong;
+    private long buffer;
 
     /**
      * Constructor.
@@ -145,6 +148,32 @@ public class ByteDataArray {
         writeByteList.set(8, (byte) (differentCharacters & 0xFF));            
     }
     
+    private void codeByteToWriteByteList(long compressedChar, int compressedLength, ByteList writeByteList) throws Exception {
+        long firsPart = compressedChar;                
+        if (this.spaceInLong <= compressedLength) {
+            firsPart >>= compressedLength - this.spaceInLong;
+            this.buffer += firsPart;
+            for (int k = 7; k >= 0; k--) {
+                long toByte = this.buffer;
+                toByte >>= 8 * k;
+                writeByteList.add((byte) (toByte & 0xFF));                        
+            }
+            if (this.spaceInLong < compressedLength) {
+                int secondLength = compressedLength - this.spaceInLong;
+                this.spaceInLong = 64 - secondLength;
+                compressedChar <<= this.spaceInLong;
+                this.buffer = compressedChar;
+            } else {
+                this.spaceInLong = 64;
+                this.buffer = 0;                        
+            }                    
+        } else {
+            firsPart <<= this.spaceInLong - compressedLength;
+            this.buffer += firsPart;
+            this.spaceInLong -= compressedLength;
+        }
+    }
+    
     /**
      * Method compress given input ByteList to the output ByteList.
      *
@@ -154,40 +183,18 @@ public class ByteDataArray {
     public void compress(ByteList readByteList, ByteList writeByteList) throws Exception {
         writeHeader(writeByteList);
         long binaryCounter = 0;
-        int spaceInLong = 64;
-        long buffer = 0;
+        this.spaceInLong = 64;
+        this.buffer = 0;
         for (int i = 0; i < readByteList.size(); i++) {
             ByteData currentByte = this.byteDatas[(int) readByteList.get(i) + 128];
             long compressedChar = currentByte.getCompressedChar();
             int compressedLength = currentByte.getCompressedLength();
             binaryCounter += compressedLength;
-            long firsPart = compressedChar;                
-            if (spaceInLong <= compressedLength) {
-                firsPart >>= compressedLength - spaceInLong;
-                buffer += firsPart;
-                for (int k = 7; k >= 0; k--) {
-                    long toByte = buffer;
-                    toByte >>= 8 * k;
-                    writeByteList.add((byte) (toByte & 0xFF));                        
-                }
-                if (spaceInLong < compressedLength) {
-                    int secondLength = compressedLength - spaceInLong;
-                    spaceInLong = 64 - secondLength;
-                    compressedChar <<= spaceInLong;
-                    buffer = compressedChar;
-                } else {
-                    spaceInLong = 64;
-                    buffer = 0;                        
-                }                    
-            } else {
-                firsPart <<= spaceInLong - compressedLength;
-                buffer += firsPart;
-                spaceInLong -= compressedLength;
-            }
+            codeByteToWriteByteList(compressedChar, compressedLength, writeByteList);
         }
-        if (spaceInLong < 64) {
+        if (this.spaceInLong < 64) {
             for (int k = 7; k >= 0; k--) {
-                long toByte = buffer;
+                long toByte = this.buffer;
                 toByte >>= 8 * k;
                 writeByteList.add((byte) (toByte & 0xFF));                        
             }

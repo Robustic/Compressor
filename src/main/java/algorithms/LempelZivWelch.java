@@ -108,14 +108,7 @@ public class LempelZivWelch {
         return codedByteList;
     }
     
-    public ByteList decode(ByteList byteList) throws Exception {
-        ByteList output = new ByteList();
-        if (byteList.size() == 0) {
-            return output;
-        } else if (byteList.size() % 2 > 0) {
-            throw new Exception("Lempel-Ziv-Welch decoding byte list size is not even!");
-        }
-
+    private void lzw(ByteList byteList, ByteList output) throws Exception {
         byteList.startReading();            
         int ocode = nextIntFromByteList(byteList);
         output.combine(this.translation[ocode].getBytesAsArray());
@@ -139,6 +132,16 @@ public class LempelZivWelch {
             }
             ocode = ncode;
         }
+    }
+    
+    public ByteList decode(ByteList byteList) throws Exception {
+        ByteList output = new ByteList();
+        if (byteList.size() == 0) {
+            return output;
+        } else if (byteList.size() % 2 > 0) {
+            throw new Exception("Lempel-Ziv-Welch decoding byte list size is not even!");
+        }
+        lzw(byteList, output);        
         return output;
     }
     

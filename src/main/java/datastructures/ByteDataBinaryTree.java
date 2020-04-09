@@ -41,6 +41,29 @@ public class ByteDataBinaryTree {
         }        
     }
     
+    private ByteData createLeafForTheCharacter(long compressed, int k, ByteData current) {
+        if ((compressed & (1L << k)) == 0) {
+            if (current.getLeftChild() == null) {
+                ByteData newChild = new ByteData((byte) 0);
+                newChild.setParent(current);
+                current.setLeftChild(newChild);
+                current = newChild;
+            } else {
+                current = current.getLeftChild();
+            }
+        } else {
+            if (current.getRightChild() == null) {
+                ByteData newChild = new ByteData((byte) 0);
+                newChild.setParent(current);
+                current.setRightChild(newChild);
+                current = newChild;
+            } else {
+                current = current.getRightChild();
+            }
+        }
+        return current;
+    }
+    
     /**
      * Creates binary tree from the ByteData binary coded labels.
      *
@@ -54,25 +77,7 @@ public class ByteDataBinaryTree {
                 int length = (byteDatas[i].getCompressedLength() & 0xFF);
                 long compressed = byteDatas[i].getCompressedChar();
                 for (int k = length - 1; k >= 0; k--) {
-                    if ((compressed & (1L << k)) == 0) {
-                        if (current.getLeftChild() == null) {
-                            ByteData newChild = new ByteData((byte) 0);
-                            newChild.setParent(current);
-                            current.setLeftChild(newChild);
-                            current = newChild;
-                        } else {
-                            current = current.getLeftChild();
-                        }
-                    } else {
-                        if (current.getRightChild() == null) {
-                            ByteData newChild = new ByteData((byte) 0);
-                            newChild.setParent(current);
-                            current.setRightChild(newChild);
-                            current = newChild;
-                        } else {
-                            current = current.getRightChild();
-                        }
-                    }
+                    current = createLeafForTheCharacter(compressed, k, current);
                 }
                 byteDatas[i].setParent(current.getParent());
                 if (current.getParent().getLeftChild() == current) {

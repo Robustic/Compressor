@@ -29,6 +29,24 @@ public class Huffman {
         writeFile.writeFile(fileName, byteList);
     }
     
+    private void formWriteByteList(ByteList readByteList, ByteList writeByteList, ByteDataArray byteDataArray) throws Exception {
+        byteDataArray.count(readByteList.getBytesAsArray());
+        if (byteDataArray.countDifferentCharacters() == 1) {
+            long bytes = readByteList.size();
+            for (int k = 7; k >= 0; k--) {
+                long toByte = bytes;
+                toByte >>= 8 * k;
+                writeByteList.add((byte) (toByte & 0xFF));                        
+            }
+            writeByteList.add((byte) 0);
+            writeByteList.add(readByteList.get(0));
+        } else {
+            byteDataArray.createLinkedList();        
+            byteDataArray.createBinaryTreeFromLinkedList();        
+            byteDataArray.compress(readByteList, writeByteList);
+        }
+    }
+    
     /**
      * Compress input file to the output file.
      *
@@ -49,21 +67,7 @@ public class Huffman {
             writeByteList = readByteList;
         } else {
             ByteDataArray byteDataArray = new ByteDataArray();
-            byteDataArray.count(readByteList.getBytesAsArray());
-            if (byteDataArray.countDifferentCharacters() == 1) {
-                long bytes = readByteList.size();
-                for (int k = 7; k >= 0; k--) {
-                    long toByte = bytes;
-                    toByte >>= 8 * k;
-                    writeByteList.add((byte) (toByte & 0xFF));                        
-                }
-                writeByteList.add((byte) 0);
-                writeByteList.add(readByteList.get(0));
-            } else {
-                byteDataArray.createLinkedList();        
-                byteDataArray.createBinaryTreeFromLinkedList();        
-                byteDataArray.compress(readByteList, writeByteList);
-            }
+            formWriteByteList(readByteList, writeByteList, byteDataArray);
         }
         long endTime = System.nanoTime();
         this.printer.println("Compressing ended.");
@@ -75,6 +79,25 @@ public class Huffman {
         this.printer.println("Writing output file...");
         writeFile(writeFileName, writeByteList);
         this.printer.println("Output file writing ended.");
+    }
+    
+    private void formWriteByteList(ByteList readByteList, ByteList writeByteList) throws Exception {
+        if (readByteList.get(8) == 0) {
+            long bytes = 0; 
+            for (int i = 0; i < 8; i++) {
+                bytes <<= 8;
+                bytes |= (readByteList.get(i) & 0xFF);
+            }
+            byte character = readByteList.get(9);
+            for (long i = 0; i < bytes; i++) {
+                writeByteList.add(character);
+            }
+        } else {
+            ByteDataArray byteDataArray = new ByteDataArray();
+            byteDataArray.readHeader(readByteList);
+            byteDataArray.createBinaryTreeFromBinaryCodedCodes();
+            byteDataArray.uncompress(readByteList, writeByteList);
+        }
     }
     
     /**
@@ -96,22 +119,7 @@ public class Huffman {
         if (readByteList.size() < 2) {
             writeByteList = readByteList;
         } else {
-            if (readByteList.get(8) == 0) {
-                long bytes = 0; 
-                for (int i = 0; i < 8; i++) {
-                    bytes <<= 8;
-                    bytes |= (readByteList.get(i) & 0xFF);
-                }
-                byte character = readByteList.get(9);
-                for (long i = 0; i < bytes; i++) {
-                    writeByteList.add(character);
-                }
-            } else {
-                ByteDataArray byteDataArray = new ByteDataArray();
-                byteDataArray.readHeader(readByteList);
-                byteDataArray.createBinaryTreeFromBinaryCodedCodes();
-                byteDataArray.uncompress(readByteList, writeByteList);
-            }
+            formWriteByteList(readByteList, writeByteList);
         }
         long endTime = System.nanoTime();
         this.printer.println("Uncompressing ended.");
