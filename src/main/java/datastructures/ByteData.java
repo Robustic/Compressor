@@ -1,7 +1,7 @@
 package datastructures;
 
 /**
- * Class to capsulate data related to the coding of the single byte. *
+ * Class to capsulate data related to the coding of the single byte.
  */
 public class ByteData {    
     private byte normalChar;
@@ -196,6 +196,4 @@ public class ByteData {
     public void setNext(ByteData next) {
         this.next = next;
     }
-
-       
 }

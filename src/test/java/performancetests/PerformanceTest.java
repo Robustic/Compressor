@@ -144,7 +144,7 @@ public class PerformanceTest {
             args[0] = "huff";
             args[1] = "comp";
             args[2] = "testFileToPerformanceTest_" + size + ".txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             this.printer.printMessageInIndex(2);
             this.printer.printMessageInIndex(3);
             this.printer.printMessageInIndex(8);
@@ -162,7 +162,7 @@ public class PerformanceTest {
             this.printer = new TestPrinter();
             this.ui = new UserInterface(this.printer);
             
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             this.printer.printMessageInIndex(2);
             this.printer.printMessageInIndex(8);
             System.out.println("******************************");
@@ -238,7 +238,7 @@ public class PerformanceTest {
             args[0] = "lzw";
             args[1] = "comp";
             args[2] = "testFileToPerformanceTest_" + size + ".txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             this.printer.printMessageInIndex(2);
             this.printer.printMessageInIndex(3);
             this.printer.printMessageInIndex(8);
@@ -256,7 +256,7 @@ public class PerformanceTest {
             this.printer = new TestPrinter();
             this.ui = new UserInterface(this.printer);
             
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             this.printer.printMessageInIndex(2);
             this.printer.printMessageInIndex(8);
             System.out.println("******************************");

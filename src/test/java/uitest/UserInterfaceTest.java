@@ -27,7 +27,7 @@ public class UserInterfaceTest {
     public void withNoArguments() {
         try {
             String[] args = new String[0];
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class UserInterfaceTest {
         try {
             String[] args = new String[1];
             args[0] = "help";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(16, this.printer.messagesSize());
             assertEquals("To compress file with Huffman algorithm, run command 'compressor huff comp <filename>'.", this.printer.messageInIndex(5));
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class UserInterfaceTest {
         try {
             String[] args = new String[1];
             args[0] = "helppi";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class UserInterfaceTest {
         try {
             String[] args = new String[2];
             args[0] = "help";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class UserInterfaceTest {
             args[0] = "help";
             args[1] = "";
             args[2] = "ERROR";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("File name ERROR does not exists.", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class UserInterfaceTest {
     public void withHelpAndEmptyThreeStrings() {
         try {
             String[] args = new String[3];
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("File name  does not exists.", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -107,7 +107,7 @@ public class UserInterfaceTest {
             String[] args = new String[3];
             args[0] = "wrongAlgo";
             args[2] = "pg10.txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(4, this.printer.messagesSize());
             assertEquals("wrongAlgo is not accepted packing algorithm.", this.printer.messageInIndex(2));
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(3));
@@ -122,7 +122,7 @@ public class UserInterfaceTest {
             String[] args = new String[3];
             args[0] = "huff";
             args[2] = "pg10.txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class UserInterfaceTest {
             String[] args = new String[3];
             args[0] = "lzw";
             args[2] = "pg10.txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));
         } catch (Exception e) {
@@ -178,7 +178,7 @@ public class UserInterfaceTest {
             args[0] = "huff";
             args[1] = "uncomp";
             args[2] = "Compressor.jar";
-            this.ui.run(args);            
+            this.ui.runUserInterface(args);            
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));         
         } catch (Exception e) {
@@ -193,7 +193,7 @@ public class UserInterfaceTest {
             args[0] = "huff";
             args[1] = "uncomp";
             args[2] = "pom.xml";
-            this.ui.run(args);            
+            this.ui.runUserInterface(args);            
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));         
         } catch (Exception e) {
@@ -208,7 +208,7 @@ public class UserInterfaceTest {
             args[0] = "huff";
             args[1] = "comp";
             args[2] = "pg10.txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(13, this.printer.messagesSize());
             assertEquals("Compressing with Huffman.", this.printer.messageInIndex(2));
             assertEquals("Input file name: 'pg10.txt'", this.printer.messageInIndex(3));
@@ -224,7 +224,7 @@ public class UserInterfaceTest {
             this.ui = new UserInterface(this.printer);
             args[1] = "uncomp";
             args[2] = "pg10.new.txt.huffman";            
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(12, this.printer.messagesSize());
             assertEquals("Uncompressing with Huffman.", this.printer.messageInIndex(2));
             assertEquals("Input file name: 'pg10.new.txt.huffman'", this.printer.messageInIndex(3));
@@ -254,7 +254,7 @@ public class UserInterfaceTest {
             args[0] = "lzw";
             args[1] = "uncomp";
             args[2] = "Compressor.jar";
-            this.ui.run(args);            
+            this.ui.runUserInterface(args);            
             assertEquals(3, this.printer.messagesSize());
             assertEquals("Check help with command 'compressor help'", this.printer.messageInIndex(2));         
         } catch (Exception e) {
@@ -271,7 +271,7 @@ public class UserInterfaceTest {
             args[0] = "lzw";
             args[1] = "uncomp";
             args[2] = "abc";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             if (readFile.checkIfFileExists("abc")) {
                 File fileToDelete = new File("abc");
                 fileToDelete.delete();
@@ -291,7 +291,7 @@ public class UserInterfaceTest {
             args[0] = "lzw";
             args[1] = "comp";
             args[2] = "pg10.txt";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(13, this.printer.messagesSize());
             assertEquals("Compressing with Lempel-Ziv-Welch.", this.printer.messageInIndex(2));
             assertEquals("Input file name: 'pg10.txt'", this.printer.messageInIndex(3));
@@ -307,7 +307,7 @@ public class UserInterfaceTest {
             this.ui = new UserInterface(this.printer);
             args[1] = "uncomp";
             args[2] = "pg10.new.txt.lzw";
-            this.ui.run(args);
+            this.ui.runUserInterface(args);
             assertEquals(12, this.printer.messagesSize());
             assertEquals("Uncompressing with Lempel-Ziv-Welch.", this.printer.messageInIndex(2));
             assertEquals("Input file name: 'pg10.new.txt.lzw'", this.printer.messageInIndex(3));

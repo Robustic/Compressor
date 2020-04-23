@@ -14,6 +14,8 @@ public class Huffman {
 
     /**
      * Constructor.
+     * 
+     * @param messagePrinter    MessagePrinter
      */
     public Huffman(MessagePrinter messagePrinter) {
         this.printer = messagePrinter;

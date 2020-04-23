@@ -8,7 +8,7 @@ File compressing application.
 
 ### Ohjelmointityön aihe
 
-Ohjelmointityön aiheena on tiedon tiivistys. Tiivistysalgoritmina toteutetaan Huffman. Mikäli harjoitustyöhön aikataulullisesti saadaan sopimaan, toteutetaan myös Lempel Ziv.
+Ohjelmointityön aiheena on tiedon tiivistys. Tiivistysalgoritmeina toteutetaan Huffman sekä Lempel-Ziv-Welch.
 
 Tarkemmin aiheesta on kerrottu [määrittelydokumentissa](https://github.com/Robustic/Compressor/blob/master/documentation/projectdefinition.md).
 
@@ -39,3 +39,5 @@ Ohjelma kirjoitetaan Javalla. Yksikkötestaus tehdään JUnit:illa. Pakkaustenha
 [Viikkoraportti 4](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_4.md)
 
 [Viikkoraportti 5](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_5.md)
+
+[Viikkoraportti 6](https://github.com/Robustic/Compressor/blob/master/documentation/Viikkoraportti_6.md)

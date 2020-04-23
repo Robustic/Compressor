@@ -1,7 +1,6 @@
 package fileio;
 
 import java.io.*;
-
 import datastructures.ByteList;
 
 /**

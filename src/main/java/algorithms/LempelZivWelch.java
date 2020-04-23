@@ -1,18 +1,25 @@
 package algorithms;
 
-import datastructures.ByteDataArray;
 import datastructures.ByteList;
 import datastructures.Letter;
 import fileio.ReadFile;
 import fileio.WriteFile;
 import userio.MessagePrinter;
 
+/**
+ * Class which represent interface for the Lempel-Ziv-Welch compressing algorithm.
+ */
 public class LempelZivWelch {
     private MessagePrinter printer;
     private Letter root;
     private int nextCode;
     private ByteList[] translation;
     
+    /**
+     * Constructor.
+     * 
+     * @param messagePrinter    MessagePrinter
+     */
     public LempelZivWelch(MessagePrinter messagePrinter) {
         this.printer = messagePrinter;
         this.root = new Letter();
@@ -28,6 +35,14 @@ public class LempelZivWelch {
         
     }
     
+    /**
+     * Method to check if word is already initialized.
+     *
+     * @param bytes         Word without last letter
+     * @param newByte       Last letter of the word
+     * @return              True if word is already initialized
+     * @throws Exception    Exception
+     */
     public boolean isWordInitialized(ByteList bytes, byte newByte) throws Exception {
         Letter current = this.root;
         for (int i = 0; i < bytes.size(); i++) {
@@ -44,6 +59,13 @@ public class LempelZivWelch {
         }
     }
     
+    /**
+     * Returns code for the word.
+     *
+     * @param bytes         Word as byte list
+     * @return              Code
+     * @throws Exception    Exception
+     */
     public int outputTheCode(ByteList bytes) throws Exception {
         Letter current = this.root;
         for (int i = 0; i < bytes.size(); i++) {
@@ -56,6 +78,13 @@ public class LempelZivWelch {
         return current.getCode();
     }
     
+    /**
+     * Method to initialize word.
+     *
+     * @param bytes         Word without last letter
+     * @param newByte       Last letter of the word
+     * @throws Exception    Exception
+     */
     public void initializeWord(ByteList bytes, byte newByte) throws Exception {
         Letter current = this.root;
         for (int i = 0; i < bytes.size(); i++) {
@@ -69,12 +98,26 @@ public class LempelZivWelch {
         this.nextCode++;
     }
     
-    public void addIntToByteList(int number, ByteList byteList) throws Exception {        
-        Byte firstByte = (byte) ((number >> 8) & 0xFF);
+    /**
+     * Adds code to the end of the ByteList.
+     *
+     * @param code          Code
+     * @param byteList      ByteList
+     * @throws Exception    Exception
+     */
+    public void addIntToByteList(int code, ByteList byteList) throws Exception {        
+        Byte firstByte = (byte) ((code >> 8) & 0xFF);
         byteList.add(firstByte);        
-        byteList.add((byte) (number & 0xFF));
+        byteList.add((byte) (code & 0xFF));
     }
         
+    /**
+     * Reads next int from the ByteList.
+     *
+     * @param byteList      ByteList
+     * @return              Code as integer
+     * @throws Exception    Exception
+     */
     public int nextIntFromByteList(ByteList byteList) throws Exception {
         Byte byte1 = byteList.readNext();
         Byte byte2 = byteList.readNext();
@@ -84,6 +127,13 @@ public class LempelZivWelch {
         return number;
     }
 
+    /**
+     * Encodes ByteList.
+     *
+     * @param byteList      ByteList as input
+     * @return              Encoded ByteList
+     * @throws Exception    Exception
+     */
     public ByteList encode(ByteList byteList) throws Exception {
         ByteList codedByteList = new ByteList();
         if (byteList.size() == 0) {
@@ -134,6 +184,13 @@ public class LempelZivWelch {
         }
     }
     
+    /**
+     * Decodes ByteList.
+     *
+     * @param byteList      ByteList as input
+     * @return              Decoded ByteList
+     * @throws Exception    Exception
+     */
     public ByteList decode(ByteList byteList) throws Exception {
         ByteList output = new ByteList();
         if (byteList.size() == 0) {

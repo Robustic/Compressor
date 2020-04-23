@@ -5,7 +5,6 @@ package datastructures;
  * List is structured with array and pointer.
  */
 public class ByteList {
-
     private byte[] bytes;
     private int pointer;
     private int readingPointer;

@@ -5,9 +5,15 @@ import algorithms.LempelZivWelch;
 import fileio.ReadFile;
 import userio.MessagePrinter;
 
+/**
+ * Class to work as user interface.
+ */
 public class UserInterface {
     private MessagePrinter printer;
 
+    /**
+     * Constructor.
+     */
     public UserInterface(MessagePrinter messagePrinter) {
         this.printer = messagePrinter;
     }    
@@ -77,7 +83,12 @@ public class UserInterface {
         }
     }
     
-    public void run(String[] args) {
+    /**
+     * Method to run user interface.
+     * 
+     * @param args  Input as arguments to the user interface
+     */
+    public void runUserInterface(String[] args) {
         try {
             this.printer.println("* Compressor 0.01 *");
             this.printer.println("* MIT License     *");

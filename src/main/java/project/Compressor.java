@@ -4,14 +4,19 @@ import ui.UserInterface;
 import userio.MessagePrinter;
 import userio.ProductionPrinter;
 
-import algorithms.LempelZivWelch;
-import datastructures.ByteList;
-
+/**
+ * Main class of the Compressor program.
+ */
 public class Compressor {    
 
+    /**
+     * Main method.
+     * 
+     * @param args  Input as arguments to the program
+     */
     public static void main(String[] args) {        
         MessagePrinter printer = new ProductionPrinter();
         UserInterface ui = new UserInterface(printer);
-        ui.run(args);
+        ui.runUserInterface(args);
     }
 }
