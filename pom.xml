@@ -7,7 +7,7 @@
     <groupId>tkt</groupId>
     <artifactId>Compressor</artifactId>
     <name>Compressor</name>
-    <version>0.01</version>
+    <version>1.00</version>
     <packaging>jar</packaging>
     
     <properties>

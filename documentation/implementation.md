@@ -38,22 +38,7 @@ Testeihin on sisällytetty myös testejä, joilla mitataan pakkamiseen ja purkam
 
 Testattavat syötteet ovat generoituja tekstitiedostoja, joihin sanat on arvottu sattumanvaraisesti teoksesta [The Project Gutenberg EBook of The King James Bible](https://www.gutenberg.org/cache/epub/10/pg10.txt). Tekstitiedostot ovat suuruudeltaan 10 000, 100 000, 1000 000, 10 000 000 ja 100 000 000 tavua.
 
-[The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry)
-
-
-| Tiedosto       | Tyyppi | Kuvaus             | Koko (tavua) |
-| :------------- | :----- | :----------------- | :----------- |
-| alice29.txt    | text   | English text       | 152089       |
-| asyoulik.txt   | play   | Shakespeare        | 125179       |
-| cp.html        | html   | HTML source        | 24603        |
-| fields.c       | Csrc   | C source           | 11150        |
-| grammar.lsp    | list   | LISP source        | 3721         |
-| kennedy.xls    | Excl   | Excel Spreadsheet  | 1029744      |
-| lcet10.txt     | tech   | Technical writing  | 426754       |
-| plrabn12.txt   | poem   | Poetry             | 481861       |
-| ptt5           | fax    | CCITT test set     | 513216       |
-| sum            | SPRC   | SPARC Executable   | 38240        |
-| xargs.1        | man    | GNU manual page    | 4227         |
+Lisäksi suoritettiin testauksia seuraavilla tiedostoilla, joita käytetään yleisesti pakaustehokkuuden arviointiin. Pakattavat tiedostot ovat lähteestä [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry). Pakkaamisen tehokkuutta testattiin viidellä ajolla kullekkin operaatiolle. 
 
 
 ### Suorituskykytestien tulokset
@@ -174,6 +159,22 @@ Alla suorituskykytestien antama tulostus
         Uncompressing took 3416 ms elapsed time.
 
 
+
+Tulokset on ilmoitettu viiden ajon keskiarvona.
+
+| Tiedosto       | Tyyppi | Kuvaus             | Koko (tavua) | Huffman: Compressing rate | LZW: Compressing rate | Huffman: Comp. speed | LZW: Comp. speed | Huffman: Uncomp. speed | LZW: Uncomp. speed |
+| :------------- | :----- | :----------------- | :----------- | :------------------------ | :-------------------- | :------------------- | :--------------- | :--------------------- | :----------------- |
+| alice29.txt    | text   | English text       | 152089       |                           |                       |                      |                  |                        |                    |
+| asyoulik.txt   | play   | Shakespeare        | 125179       |                           |                       |                      |                  |                        |                    |
+| cp.html        | html   | HTML source        | 24603        |                           |                       |                      |                  |                        |                    |
+| fields.c       | Csrc   | C source           | 11150        |                           |                       |                      |                  |                        |                    |
+| grammar.lsp    | list   | LISP source        | 3721         |                           |                       |                      |                  |                        |                    |
+| kennedy.xls    | Excl   | Excel Spreadsheet  | 1029744      | 45.17 %                   | 34.14 %               | 38 ms                | 134 ms           | 37 ms                  | 44 ms              |
+| lcet10.txt     | tech   | Technical writing  | 426754       |                           |                       |                      |                  |                        |                    |
+| plrabn12.txt   | poem   | Poetry             | 481861       |                           |                       |                      |                  |                        |                    |
+| ptt5           | fax    | CCITT test set     | 513216       |                           |                       |                      |                  |                        |                    |
+| sum            | SPRC   | SPARC Executable   | 38240        |                           |                       |                      |                  |                        |                    |
+| xargs.1        | man    | GNU manual page    | 4227         |                           |                       |                      |                  |                        |                    |
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
