@@ -1,4 +1,4 @@
-# Ohjelman toteutus
+# Toteutusdokumentti
 
 ## Ohjelman koodin rakenne
 
@@ -14,17 +14,23 @@ Paketti `datastructures` sisältää toteutetut tietorakenteet ja niiden käsitt
 
 Paketti `fileio` sisältää tiedostojen lukemiseen ja kirjoittamiseen käytetyt toiminnot.
 
-## Huffman
+### Huffman
 
 [Huffman](https://en.wikipedia.org/wiki/Huffman_coding)
 
-## Lempel-Ziv-Welch
+### Lempel-Ziv-Welch
 
 [Lempel-Ziv-Welch](http://web.mit.edu/6.02/www/s2012/handouts/3.pdf)
 
 [Lempel-Ziv-Welch](http://www.ajer.org/papers/v3\(2\)/C0322226.pdf)
 
 ## Saavutetut aika- ja tilavaativuudet
+
+Ohjelman tietorakenteissa syötteen koko *n* vaikuttaa ainoastaan *ByteList*:ien suuruuteen. *ByteList*:it ovat pohjimmiltaan taulukkoja, joiden alkioihin voidaan viitata suoraan indeksillä. Ohjelman suorituksen aikana *ByteList*:ejä luetaan muutaman rajatun määrän kertoja läpi alusta loppuun. Syötteen koko *n* ei vaikuta siihen, kuinka monta kertaa kukin alkio *ByteList* taulukosta luetaan tai kirjoitetaan, vaan lukemisia on aina vakio määrä. Alkioita *ByteList*:eistä ei myöskään sijoiteta muihin tietorakenteisiin. *ByteList*ien käsittelyn aikavaativuus on siten O(n).
+
+Kaikki muut tietorakenteet on kooltaan rajattuja. Tällöin niiden käsittelyn aikavaativuus on O(1) yksittäiselle tapahtumalle ja O(n), kun niitä käsitellään *n* kertaa.
+
+Kokonaisaikavaativuus ohjelman algoritmien suoriukselle on siten O(n).
 
 ## Suorituskyky- ja O-analyysivertailu
 
@@ -34,14 +40,9 @@ Kun pakkausohjelma suoritetaan, ilmoitaan saaavutettu pakkaussuhde (pakatun tied
 
 Testeihin on sisällytetty myös testejä, joilla mitataan pakkamiseen ja purkamiseen kuluvaa aikaa. Näin eri pakkausalgoritmeja voidaan verrata keskenään.
 
-### Testisyötteet
-
-Testattavat syötteet ovat generoituja tekstitiedostoja, joihin sanat on arvottu sattumanvaraisesti teoksesta [The Project Gutenberg EBook of The King James Bible](https://www.gutenberg.org/cache/epub/10/pg10.txt). Tekstitiedostot ovat suuruudeltaan 10 000, 100 000, 1000 000, 10 000 000 ja 100 000 000 tavua.
-
-Lisäksi suoritettiin testauksia tiedostoilla, joita käytetään yleisesti pakaustehokkuuden arviointiin. Pakattavat tiedostot ovat lähteestä [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry). Pakkaamisen tehokkuutta testattiin viidellä ajolla kullekkin operaatiolle, joista otettiin keskiarvo, joka on ilmoitettu tuloksissa. 
-
-
 ### Suorituskykytestien tulokset
+
+Testiaineistot on esitetty [testausdokumentissa](https://github.com/Robustic/Compressor/blob/master/documentation/testing.md).
 
 #### Skaalautuvuustesti
 
@@ -91,6 +92,17 @@ Huffmanin algoritmille:
         ==============================
         Uncompressing with Huffman.
         Uncompressing took 407 ms elapsed time.
+
+        
+        Huffman: 40000000 bytes
+        ==============================
+        Compressing with Huffman.
+        Input file name: 'testFileToPerformanceTest_40000000.txt'
+        Compression took 621 ms elapsed time.
+        Compressing rate 56.18 %.
+        ==============================
+        Uncompressing with Huffman.
+        Uncompressing took 2167 ms elapsed time.
 
         
         Huffman: 100000000 bytes
@@ -147,8 +159,19 @@ Lempel-Ziv-Welch:in algoritmille:
         ==============================
         Uncompressing with Lempel-Ziv-Welch.
         Uncompressing took 324 ms elapsed time.
+        
+        
+        Lempel-Ziv-Welch: 40000000 bytes
+        ==============================
+        Compressing with Lempel-Ziv-Welch.
+        Input file name: 'testFileToPerformanceTest_40000000.txt'
+        Compression took 4585 ms elapsed time.
+        Compressing rate 37.73 %.
+        ==============================
+        Uncompressing with Lempel-Ziv-Welch.
+        Uncompressing took 887 ms elapsed time.
 
-
+        
         Lempel-Ziv-Welch: 100000000 bytes
         ==============================
         Compressing with Lempel-Ziv-Welch.
@@ -161,11 +184,13 @@ Lempel-Ziv-Welch:in algoritmille:
 
 Tulokset on esitetty graafisessa muodossa alla olevassa kuvaajassa.
 
-<img src="https://github.com/Robustic/Compressor/blob/master/documentation/running_time.png" width="744">
+<img src="https://github.com/Robustic/Compressor/blob/master/documentation/running_time.png" width="740">
 
 **Kuva 1.** *Suoritusaika eri kokoisilla samasta lähdeaineistoista generoidulla tiedostolla.*
 
-Kuten kuvaajasta nähdään, ovat suoritusajat lineaarisia suhteessa syötteen kokoon. Tämä on nähtävissä Hoffmanin ja Lempel-Ziv-Welchin algoritmeilla sekä pakkaamisessa että purkamisessa. Havainto tukee arviota, että harjoitustyössä käytetyillä pakkausalgoritmeilla päästään aikavaativuuteen O(n).
+Kuten kuvaajasta nähdään, ovat suoritusajat lineaarisia suhteessa syötteen kokoon. Syötteen koon kymmenkertaistuessa suoritusaika likimain kymmnekertaistuu. Tämä on nähtävissä Hoffmanin ja Lempel-Ziv-Welchin algoritmeilla sekä pakkaamisessa että purkamisessa. Havainto tukee arviota, että harjoitustyössä käytetyillä pakkausalgoritmeilla päästään aikavaativuuteen O(n).
+
+#### Testit erilaisilla testiaineistoilla
 
 Yleisesti käytetty testiaineistoon [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) tehtyjen testiajojoen tulokset on estitety taulukossa 1. Kuten nähdään, päästään Lempel-Ziv-Welchillä selvästi tiiviimpään pakkaukseen. Teksti- ja numermuotoisella syötteellä tiedostojen koko pakattuna on alle 50 % alkuperäisestä. Tulokset on ilmoitettu taulukossa viiden ajon keskiarvona.
 

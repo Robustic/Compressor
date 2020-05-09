@@ -67,6 +67,7 @@ public class PerformanceTest {
             writeTestFile(list, random, 100000);
             writeTestFile(list, random, 1000000);
             writeTestFile(list, random, 10000000);
+            writeTestFile(list, random, 40000000);
             writeTestFile(list, random, 100000000);            
         } catch (Exception exception) {
             assertTrue(false);
@@ -91,6 +92,10 @@ public class PerformanceTest {
             }
             if (readFile.checkIfFileExists("testFileToPerformanceTest_10000000.txt")) {
                 File fileToDelete = new File("testFileToPerformanceTest_10000000.txt");
+                fileToDelete.delete();
+            }
+            if (readFile.checkIfFileExists("testFileToPerformanceTest_40000000.txt")) {
+                File fileToDelete = new File("testFileToPerformanceTest_40000000.txt");
                 fileToDelete.delete();
             }
             if (readFile.checkIfFileExists("testFileToPerformanceTest_100000000.txt")) {
@@ -221,6 +226,15 @@ public class PerformanceTest {
     }
     
     @Test
+    public void huffman_40000000() {
+        try {
+            huffman_x(40000000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
     public void huffman_100000000() {
         try {
             huffman_x(100000000);
@@ -309,6 +323,15 @@ public class PerformanceTest {
     public void lzw_10000000() {
         try {
             lzw_x(10000000);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void lzw_40000000() {
+        try {
+            lzw_x(40000000);
         } catch (Exception e) {
             assertTrue(false);
         }

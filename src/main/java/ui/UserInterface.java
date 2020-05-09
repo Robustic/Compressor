@@ -90,7 +90,7 @@ public class UserInterface {
      */
     public void runUserInterface(String[] args) {
         try {
-            this.printer.println("* Compressor 0.01 *");
+            this.printer.println("* Compressor 1.00 *");
             this.printer.println("* MIT License     *");
             if (args.length > 0 && args[0] == null) {
                 args[0] = "";
@@ -125,7 +125,7 @@ public class UserInterface {
         this.printer.println("To compress file with Huffman algorithm, run command 'compressor huff uncomp <filename.huffman>'.");
         this.printer.println("");
         this.printer.println("Lempel-Ziv-Welch");
-        this.printer.println("=======");
+        this.printer.println("================");
         this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw comp <filename>'.");
         this.printer.println("To compress file with Lempel-Ziv-Welch algorithm, run command 'compressor lzw uncomp <filename.lzw>'.");
         this.printer.println("");
