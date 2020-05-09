@@ -224,6 +224,7 @@ public class HuffmanTest {
             this.huffman.compress("pg10.txt", "pg10.txt.test.huffman");
             this.huffman = new Huffman(this.printer);
             this.huffman.uncompress("pg10.txt.test.huffman", "pg10.txt.test");
+            System.out.println("Before assertTrue");
             assertTrue(filesAreSame("pg10.txt", "pg10.txt.test"));
             if (readFile.checkIfFileExists("pg10.txt.test")) {
                 File fileToDelete = new File("pg10.txt.test");
@@ -233,7 +234,9 @@ public class HuffmanTest {
                 File fileToDelete = new File("pg10.txt.test.huffman");
                 fileToDelete.delete();
             }
+            System.out.println("*** File: pg10.txt Ended ***");
         } catch (Exception e) {
+            System.out.println(e);
             assertTrue(false);
         }
     }
