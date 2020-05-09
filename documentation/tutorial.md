@@ -50,28 +50,28 @@ Ohjelma antaa lyhyet ohjeet komentoriville komennolla
 
 `java -jar Compressor-1.00.jar huff comp <filename>`
 
-missä `<filename>` on tiedostonimi hakemistopolkuineen. Pakatun tiedoston tiedostopäätteeksi annetaan `.huffman`.
+missä `<filename>` on pakattavan tiedoston nimi hakemistopolkuineen. Pakatun tiedoston tiedostopäätteeksi annetaan `.huffman`.
 
 ### Purkaminen Huffmanin algoritmilla
 
 `java -jar Compressor-1.00.jar huff uncomp <filename>`
 
-missä `<filename>` on tiedostonimi hakemistopolkuineen. Purettavat tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteenä on oltava `.huffman`.
+missä `<filename>` on purettavan tiedoston nimi hakemistopolkuineen. Purettavan tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteenä on oltava `.huffman`.
 
 ### Pakkaaminen Lempel-Ziv-Welchin algoritmilla
 
 `java -jar Compressor-1.00.jar lzw comp <filename>`
 
-missä `<filename>` on tiedostonimi hakemistopolkuineen.  Pakatun tiedoston tiedostopäätteeksi annetaan `.lzw`.
+missä `<filename>` on pakattavan tiedoston nimi hakemistopolkuineen.  Pakatun tiedoston tiedostopäätteeksi annetaan `.lzw`.
 
 ### Purkaminen Lempel-Ziv-Welchin algoritmilla
 
 `java -jar Compressor-1.00.jar lzw uncomp <filename>`
 
-missä `<filename>` on tiedostonimi hakemistopolkuineen. Purettavat tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteenä on oltava `.lzw`.
+missä `<filename>` on purettavan tiedoston nimi hakemistopolkuineen. Purettavan tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteenä on oltava `.lzw`.
 
 ## Ohjelman sallimat syötteet
 
-Ohjelma sallii pakattaviksi tiedostoiksi teksti- ja binääritiedostoja . Ohjelma hyväksyy pakattavaksi kaikki tiedostot, joiden koko on alle 512 megatavua. Purettavat tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteen on oltava oikea.
+Ohjelma sallii pakattaviksi tiedostoiksi teksti- ja binääritiedostoja. Ohjelma hyväksyy pakattaviksi kaikki tiedostot, joiden koko on alle 512 megatavua. Purettavan tiedoston tulee olla pakattu samalla ohjelmalla ja tiedostopäätteen on oltava oikea.
 
-
+Ohjelmaa voi testata esimerkiksi lähteestä [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) löytyvillä tiedostoilla, tai muilla haluamillaan tiedostoilla.

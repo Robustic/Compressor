@@ -16,13 +16,23 @@ Paketti `fileio` sisältää tiedostojen lukemiseen ja kirjoittamiseen käytetyt
 
 ### Huffman
 
-[Huffman](https://en.wikipedia.org/wiki/Huffman_coding)
+Huffmanin algoritmin toimninta on kuvattu useissa lähteissä, kuten lähteessä [Huffman](https://en.wikipedia.org/wiki/Huffman_coding), joten itse algoritmia ei kuvata tässä dokumentaatiossa. Sen sijaan kerrotaan hieman algoritmin toteutuksesta tässä harjoitustyössä.
+
+Huffmanin koodissa lasketaan aluksi kunkin merkin lukumäärä syötteessä ja järjestämällä merkit tämän perusteella oikeaan järjestykseen. Tämä toteutettiin luokassa *ByteDataLinkedList* lisäämällä kukin alkio oikealle paikaleen linkitettyyn listaan aina alkiota lisättäessä.
+
+Kunkin merkin koodi saatiin sijoittamalla alkiot puurakenteeseen *ByteDataBinaryTree* Huffmanin algoritmin edellyttämällä tavalla.
+
+Tämän jälkeen koodaus onnistui helposti koodaamalla syötteen kukin merkki edellä määritellyllä koodilla.
+
+Merkkien koodit talletettiin koodatun tiedoston alkuun, joita käyttämällä purkaminen onnistui. Purkamisessa hyödynnettiin myöskin *ByteDataBinaryTree* tietorakennetta, jolla saatiin purkamiseen tehokkuutta.
 
 ### Lempel-Ziv-Welch
 
-[Lempel-Ziv-Welch](http://web.mit.edu/6.02/www/s2012/handouts/3.pdf)
+Lempel-Ziv-Welchin algoritmin toimninta on kuvattu useissa lähteissä, kuten lähteissä [Lempel-Ziv-Welch](http://web.mit.edu/6.02/www/s2012/handouts/3.pdf) ja [Lempel-Ziv-Welch](http://www.ajer.org/papers/v3\(2\)/C0322226.pdf), joten itse algoritmia ei kuvata tässä dokumentaatiossa. Sen sijaan kerrotaan hieman algoritmin toteutuksesta tässä harjoitustyössä.
 
-[Lempel-Ziv-Welch](http://www.ajer.org/papers/v3\(2\)/C0322226.pdf)
+Tässä harjoitustyössä Lempel-Ziv-Welchin algoritmin koodauksen tarvitsema sanakirja on toteutettu puurakenteena, jonka alkiot ovat *Letter* luokan olioita. Sanakirjan juuressa on 256 *Letter* oliota. Kun sanakirjaa täydennetään, lisätään uusi sana aina sen sanan lapseksi, mistä uusi sana polveutuu. Esim. sana *aut* olisi sanan *au* lapsi.
+
+Lempel-Ziv-Welchin purkualgoritmille sanakirja on toteutettu *ByteList* taulukkona, jonka alkioihin viittaaminen on nopeaa.
 
 ## Saavutetut aika- ja tilavaativuudet
 
@@ -36,9 +46,9 @@ Kokonaisaikavaativuus ohjelman algoritmien suoriukselle on siten O(n).
 
 Kunkin pakkausalgoritmin toteutuksessa saavutettua tehokkuutta mitataan pakkauksen tilasäästöllä verrattuna alkuperäisen tiedoston kokoon sekä pakkauksen ja purkamisen viemään aikaan.
 
-Kun pakkausohjelma suoritetaan, ilmoitaan saaavutettu pakkaussuhde (pakatun tiedoston koko prosentteina verrattuna alkuperäisen tiedoston kokoon). Lisäksi ilmoitaan pakkaamiseen tai purkamiseen kulunut aika.
+Kun pakkausohjelma suoritetaan, ilmoitaan saavutettu pakkaussuhde (pakatun tiedoston koko prosentteina verrattuna alkuperäisen tiedoston kokoon). Lisäksi ilmoitetaan pakkaamiseen tai purkamiseen kulunut aika.
 
-Testeihin on sisällytetty myös testejä, joilla mitataan pakkamiseen ja purkamiseen kuluvaa aikaa. Näin eri pakkausalgoritmeja voidaan verrata keskenään.
+JUnit testeihin on sisällytetty myös testejä, joilla mitataan pakkaamiseen ja purkamiseen kuluvaa aikaa. Näin eri pakkausalgoritmeja voidaan verrata keskenään helposti.
 
 ### Suorituskykytestien tulokset
 
@@ -46,7 +56,7 @@ Testiaineistot on esitetty [testausdokumentissa](https://github.com/Robustic/Com
 
 #### Skaalautuvuustesti
 
-Alla suorituskykytestien antama tulostus. Kuten nähdään, kasvaa ohjelman tiivistykseen käyttämän suoritusaika lineaarisesti syötteen koon kasvaessa. Ilmoitetut ajat eivät sisällä tiedostojen lukemista tai kirjoittamista, joten ne kuvastavat pelkästään syötteen käsittelyyn kuluvaa aikaa.
+Alla suorituskykytestien antama tulostus. Kuten nähdään, kasvaa ohjelman algoritmien tiivistykseen käyttämä suoritusaika lineaarisesti syötteen koon kasvaessa. Ilmoitetut ajat eivät sisällä tiedostojen lukemista tai kirjoittamista, joten ne kuvastavat pelkästään syötteen käsittelyyn kuluvaa aikaa.
 
 Huffmanin algoritmille:
         
@@ -182,7 +192,7 @@ Lempel-Ziv-Welch:in algoritmille:
         Uncompressing with Lempel-Ziv-Welch.
         Uncompressing took 3416 ms elapsed time.
 
-Tulokset on esitetty graafisessa muodossa alla olevassa kuvaajassa.
+Tulokset on esitetty graafisessa muodossa alla olevassa kuvaajassa. Kuvaajan muoto oli aina likimain vastaava toistamalla testiajot muutaman kerran.
 
 <img src="https://github.com/Robustic/Compressor/blob/master/documentation/running_time.png" width="740">
 
@@ -192,7 +202,7 @@ Kuten kuvaajasta nähdään, ovat suoritusajat lineaarisia suhteessa syötteen k
 
 #### Testit erilaisilla testiaineistoilla
 
-Yleisesti käytetty testiaineistoon [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) tehtyjen testiajojoen tulokset on estitety taulukossa 1. Kuten nähdään, päästään Lempel-Ziv-Welchillä selvästi tiiviimpään pakkaukseen. Teksti- ja numermuotoisella syötteellä tiedostojen koko pakattuna on alle 50 % alkuperäisestä. Tulokset on ilmoitettu taulukossa viiden ajon keskiarvona.
+Yleisesti käytettyyn testiaineistoon [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) tehtyjen testiajojen tulokset on esitetty taulukossa 1. Kuten nähdään, päästään Lempel-Ziv-Welchillä selvästi tiiviimpään pakkaukseen. Teksti- ja numeromuotoisella syötteellä tiedostojen koko pakattuna on usein alle 50 % alkuperäisestä. Tulokset on ilmoitettu taulukossa viiden ajon keskiarvona.
 
 | Tiedosto       | Tyyppi | Kuvaus             | Koko (tavua) | Huffman: Compressing rate | LZW: Compressing rate | Huffman: Comp. speed | LZW: Comp. speed | Huffman: Uncomp. speed | LZW: Uncomp. speed |
 | :------------- | :----- | :----------------- | :----------- | :------------------------ | :-------------------- | :------------------- | :--------------- | :--------------------- | :----------------- |
@@ -208,7 +218,7 @@ Yleisesti käytetty testiaineistoon [The Canterbury Corpus](http://corpus.canter
 | sum            | SPRC   | SPARC Executable   | 38240        |                           |                       |                      |                  |                        |                    |
 | xargs.1        | man    | GNU manual page    | 4227         |                           |                       |                      |                  |                        |                    |
 
-Esimerkiksi yleiseen `zip` formaattiin pakatessa tiedoston `kennedy.xls` koko on vain noin 18 % alkuperäisestä, joten tämä harjoitustyönä tehty ohjelma ei pääse aivan yleisesti käytössä olevien ohjelmien algoritmien tasolle.
+Esimerkiksi yleiseen `zip` formaattiin pakatessa tiedoston `kennedy.xls` koko on vain noin 18 % alkuperäisestä, joten tässä harjoitustyössä tehty ohjelma ei pääse aivan yleisesti käytössä olevien ohjelmien algoritmien tasolle.
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
