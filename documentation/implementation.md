@@ -202,21 +202,21 @@ Kuten kuvaajasta nähdään, ovat suoritusajat lineaarisia suhteessa syötteen k
 
 #### Testit erilaisilla testiaineistoilla
 
-Yleisesti käytettyyn testiaineistoon [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) tehtyjen testiajojen tulokset on esitetty taulukossa 1. Kuten nähdään, päästään Lempel-Ziv-Welchillä selvästi tiiviimpään pakkaukseen. Teksti- ja numeromuotoisella syötteellä tiedostojen koko pakattuna on usein alle 50 % alkuperäisestä. Tulokset on ilmoitettu taulukossa viiden ajon keskiarvona.
+Yleisesti käytettyyn testiaineistoon [The Canterbury Corpus](http://corpus.canterbury.ac.nz/descriptions/#cantrbry) tehtyjen testiajojen tulokset on esitetty taulukossa 1. Kuten nähdään, päästään Lempel-Ziv-Welchillä selvästi tiiviimpään pakkaukseen. Suurilla teksti- ja numeromuotoisella syötteellä tiedostojen koko pakattuna on usein alle 50 % alkuperäisestä. Pienillä tiedostoilla Huffmanin algoritmin pakkaussuhde käsrsii siitä, että koodaus on tallennettu samaan tiedostoon koodatun tulostuksen kanssa, mikä vie tilaa. Lempel-Ziv-Welch kärsii puolestaan siitä, että ohjelmassa sanakirja on tehty kahden tavun koodaukseen perustuvaksi. Puolentoista tavun koodauksen avulla pienten tiedostojen pakkaussuhde olisi todennäköisesti parempi. Tulokset on ilmoitettu taulukossa viiden ajon keskiarvona.
 
 | Tiedosto       | Tyyppi | Kuvaus             | Koko (tavua) | Huffman: Compressing rate | LZW: Compressing rate | Huffman: Comp. speed | LZW: Comp. speed | Huffman: Uncomp. speed | LZW: Uncomp. speed |
 | :------------- | :----- | :----------------- | :----------- | :------------------------ | :-------------------- | :------------------- | :--------------- | :--------------------- | :----------------- |
-| alice29.txt    | text   | English text       | 152089       |                           |                       |                      |                  |                        |                    |
-| asyoulik.txt   | play   | Shakespeare        | 125179       |                           |                       |                      |                  |                        |                    |
-| cp.html        | html   | HTML source        | 24603        |                           |                       |                      |                  |                        |                    |
-| fields.c       | Csrc   | C source           | 11150        |                           |                       |                      |                  |                        |                    |
-| grammar.lsp    | list   | LISP source        | 3721         |                           |                       |                      |                  |                        |                    |
+| alice29.txt    | text   | English text       | 152089       | 58.15 %                   | 46.12 %               | 20 ms                | 54 ms            | 19 ms                  | 16 ms              |
+| asyoulik.txt   | play   | Shakespeare        | 125179       | 61.11 %                   | 50.13 %               | 17 ms                | 46 ms            | 16 ms                  | 15 ms              |
+| cp.html        | html   | HTML source        | 24603        | 69.38 %                   | 60.76 %               | 7 ms                 | 13 ms            | 8 ms                   | 5 ms               |
+| fields.c       | Csrc   | C source           | 11150        | 71.22 %                   | 63.53 %               | 4 ms                 | 7 ms             | 6 ms                   | 3 ms               |
+| grammar.lsp    | list   | LISP source        | 3721         | 79.15 %                   | 75.73 %               | 3 ms                 | 3 ms             | 3 ms                   | 1 ms               |
 | kennedy.xls    | Excl   | Excel Spreadsheet  | 1029744      | 45.17 %                   | 34.14 %               | 38 ms                | 134 ms           | 37 ms                  | 44 ms              |
-| lcet10.txt     | tech   | Technical writing  | 426754       |                           |                       |                      |                  |                        |                    |
-| plrabn12.txt   | poem   | Poetry             | 481861       |                           |                       |                      |                  |                        |                    |
-| ptt5           | fax    | CCITT test set     | 513216       |                           |                       |                      |                  |                        |                    |
-| sum            | SPRC   | SPARC Executable   | 38240        |                           |                       |                      |                  |                        |                    |
-| xargs.1        | man    | GNU manual page    | 4227         |                           |                       |                      |                  |                        |                    |
+| lcet10.txt     | tech   | Technical writing  | 426754       | 58.91 %                   | 40.21 %               | 26 ms                | 114 ms           | 31 ms                  | 37 ms              |
+| plrabn12.txt   | poem   | Poetry             | 481861       | 57.36 %                   | 42.52 %               | 28 ms                | 120 ms           | 33 ms                  | 40 ms              |
+| ptt5           | fax    | CCITT test set     | 513216       | 21.07 %                   | 13.66 %               | 29 ms                | 169 ms           | 19 ms                  | 24 ms              |
+| sum            | SPRC   | SPARC Executable   | 38240        | 73.76 %                   | 65.52 %               | 10 ms                | 19 ms            | 11 ms                  | 7 ms               |
+| xargs.1        | man    | GNU manual page    | 4227         | 79.42 %                   | 84.79 %               | 4 ms                 | 4 ms             | 3 ms                   | 2 ms               |
 
 Esimerkiksi yleiseen `zip` formaattiin pakatessa tiedoston `kennedy.xls` koko on vain noin 18 % alkuperäisestä, joten tässä harjoitustyössä tehty ohjelma ei pääse aivan yleisesti käytössä olevien ohjelmien algoritmien tasolle.
 
