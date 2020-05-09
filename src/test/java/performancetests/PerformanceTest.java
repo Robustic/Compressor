@@ -68,7 +68,7 @@ public class PerformanceTest {
             writeTestFile(list, random, 1000000);
             writeTestFile(list, random, 10000000);
             writeTestFile(list, random, 40000000);
-            writeTestFile(list, random, 100000000);            
+//            writeTestFile(list, random, 100000000);            
         } catch (Exception exception) {
             assertTrue(false);
         }        
@@ -98,10 +98,10 @@ public class PerformanceTest {
                 File fileToDelete = new File("testFileToPerformanceTest_40000000.txt");
                 fileToDelete.delete();
             }
-            if (readFile.checkIfFileExists("testFileToPerformanceTest_100000000.txt")) {
-                File fileToDelete = new File("testFileToPerformanceTest_100000000.txt");
-                fileToDelete.delete();
-            }
+//            if (readFile.checkIfFileExists("testFileToPerformanceTest_100000000.txt")) {
+//                File fileToDelete = new File("testFileToPerformanceTest_100000000.txt");
+//                fileToDelete.delete();
+//            }
         } catch (Exception exception) {
             assertTrue(false);
         }        
@@ -234,14 +234,14 @@ public class PerformanceTest {
         }
     }
     
-    @Test
-    public void huffman_100000000() {
-        try {
-            huffman_x(100000000);
-        } catch (Exception e) {
-            assertTrue(false);
-        }
-    }
+//    @Test
+//    public void huffman_100000000() {
+//        try {
+//            huffman_x(100000000);
+//        } catch (Exception e) {
+//            assertTrue(false);
+//        }
+//    }
     
     public void lzw_x(int size) {
         try {
@@ -337,12 +337,12 @@ public class PerformanceTest {
         }
     }
     
-    @Test
-    public void lzw_100000000() {
-        try {
-            lzw_x(100000000);
-        } catch (Exception e) {
-            assertTrue(false);
-        }
-    }
+//    @Test
+//    public void lzw_100000000() {
+//        try {
+//            lzw_x(100000000);
+//        } catch (Exception e) {
+//            assertTrue(false);
+//        }
+//    }
 }
